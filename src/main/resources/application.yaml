@@ -1,0 +1,28 @@
+spring:
+  application:
+    name: sping-data-jpa
+
+  jpa:
+    database: mysql
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        format_sql: true
+        show_sql: true
+        dialect: org.hibernate.dialect.MySQLDialect
+    defer-datasource-initialization: false
+  datasource: # For the usage of H2 with MySQL compatibility
+    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;MODE=MYSQL;DATABASE_TO_LOWER=TRUE;CASE_INSENSITIVE_IDENTIFIERS=TRUE
+    username: sa
+    password: password
+  h2:
+    console:
+      path: /h2-console
+      enabled: true
+      # if not provided -> database hash and passaword to connect are in the Console logs
+
+logging:
+  level:
+    # Show bind values
+    org.hibernate.orm.jdbc.bind: trace

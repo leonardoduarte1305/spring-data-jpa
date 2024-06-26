@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: sping-data-jpa
+  jpa:
+    hibernate:
+      ddl-auto: validate
+  datasource:
+    username: root
+    password: senhaSegura
+    url: jdbc:mysql://${database.server}:${database.port}/${database.name}?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
+  sql:
+    init:
+      mode: always
+database:
+  name: bookdb
+  port: 3306
+  server: 127.0.0.1
+logging:
+  level:
+    # Show bind values
+    org.hibernate.orm.jdbc.bind: trace
