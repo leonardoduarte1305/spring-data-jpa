@@ -5,12 +5,17 @@ spring:
     hibernate:
       ddl-auto: validate
   datasource:
-    username: root
-    password: senhaSegura
+    username: bookuser
+    password: password
     url: jdbc:mysql://${database.server}:${database.port}/${database.name}?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
   sql:
     init:
       mode: always
+  liquibase:
+    change-log: liquibase-changelog-master.yaml
+    user: bookadmin
+    password: password
+
 database:
   name: bookdb
   port: 3306

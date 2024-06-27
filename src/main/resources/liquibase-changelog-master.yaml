@@ -1,0 +1,9 @@
+databaseChangeLog:
+  -  include:
+       file: /liquibase/changelog-01.yaml
+  -  include:
+       file: /liquibase/changelog-02.yaml
+  -  include:
+       file: /liquibase/changelog-03.yaml
+  -  include:
+       file: /liquibase/changelog-04.yaml

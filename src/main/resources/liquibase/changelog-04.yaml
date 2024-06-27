@@ -1,0 +1,11 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1719488983095-1
+      author: spring-data-jpa-app
+      changes:
+        - addColumn:
+            columns:
+              - column:
+                  name: author_id
+                  type: BIGINT
+            tableName: book

@@ -1,0 +1,40 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1719488983094-1
+      author: spring-data-jpa-app
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                  name: id
+                  type: BIGINT
+              - column:
+                  name: first_name
+                  type: VARCHAR(255)
+              - column:
+                  name: last_name
+                  type: VARCHAR(255)
+            tableName: author
+  - changeSet:
+      id: 1719488983094-2
+      author: spring-data-jpa-app
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  name: next_val
+                  type: BIGINT
+            tableName: author_seq
+  - changeSet:
+      id: 1719488983094-3
+      author: spring-data-jpa-app
+      changes:
+        - insert:
+            tableName: author_seq
+            columns:
+              - column:
+                  name: next_val
+                  value: 0

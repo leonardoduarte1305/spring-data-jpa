@@ -21,7 +21,8 @@ spring:
       path: /h2-console
       enabled: true
       # if not provided -> database hash and passaword to connect are in the Console logs
-
+  liquibase:
+    change-log: liquibase-changelog-master.yaml
 logging:
   level:
     # Show bind values
