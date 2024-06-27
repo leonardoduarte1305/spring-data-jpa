@@ -1,0 +1,33 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1719488983093-1
+      author: spring-data-jpa-app
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                  name: id
+                  type: BIGINT
+              - column:
+                  name: isbn
+                  type: VARCHAR(255)
+              - column:
+                  name: publisher
+                  type: VARCHAR(255)
+              - column:
+                  name: title
+                  type: VARCHAR(255)
+            tableName: book
+  - changeSet:
+      id: 1719488983093-2
+      author: spring-data-jpa-app
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  name: next_val
+                  type: BIGINT
+            tableName: book_seq

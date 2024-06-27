@@ -1,0 +1,11 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1719488983093-3
+      author: spring-data-jpa-app
+      changes:
+        - insert:
+            tableName: book_seq
+            columns:
+              - column:
+                  name: next_val
+                  value: 0
