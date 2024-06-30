@@ -1,8 +1,10 @@
 package dev.leoduarte.spingdatajpa.bootstrap;
 
 import dev.leoduarte.spingdatajpa.domain.Book;
+import dev.leoduarte.spingdatajpa.domain.BookNaturalKey;
 import dev.leoduarte.spingdatajpa.domain.BookUUID;
 import dev.leoduarte.spingdatajpa.domain.BookUUIDRFC4122;
+import dev.leoduarte.spingdatajpa.repository.BookNaturalKeyRepository;
 import dev.leoduarte.spingdatajpa.repository.BookRepository;
 import dev.leoduarte.spingdatajpa.repository.BookUuidRFC4122Repository;
 import dev.leoduarte.spingdatajpa.repository.BookUuidRepository;
@@ -22,12 +24,14 @@ public class DataInitializer implements CommandLineRunner {
     private final BookRepository bookRepository;
     private final BookUuidRFC4122Repository rfc4122Repository;
     private final BookUuidRepository uuidRepository;
+    private final BookNaturalKeyRepository naturalKeyRepository;
 
     @Override
     public void run(String... args) throws Exception {
         bookRepository.deleteAll();
         uuidRepository.deleteAll();
         rfc4122Repository.deleteAll();
+        naturalKeyRepository.deleteAll();
 
         Book book1 = new Book(null, "Title 1", "ISBN 11", "Plublisher 21", 1L);
         Book book2 = new Book(null, "Title 2", "ISBN 12", "Plublisher 22", 2L);
@@ -51,6 +55,10 @@ public class DataInitializer implements CommandLineRunner {
         BookUUID bookUUID = new BookUUID(null, "BookUUIDRFC4122 1", "ISBN BookUUIDRFC4122", "Publisher: BookUUIDRFC4122", 1L);
         BookUUID savedBookUUID = uuidRepository.save(bookUUID);
         System.out.println("savedBookUUID = " + savedBookUUID);
+
+        BookNaturalKey bookNatualKey = new BookNaturalKey("BookNaturalKey 1", "ISBN BookNaturalKey", "Publisher: BookNaturalKey", 1L);
+        BookNaturalKey savedBookNaturalKey = naturalKeyRepository.save(bookNatualKey);
+        System.out.println("savedBookNaturalKey = " + savedBookNaturalKey);
     }
 
 }
