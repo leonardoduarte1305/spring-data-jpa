@@ -9,3 +9,5 @@ databaseChangeLog:
        file: /liquibase/changelog-04.yaml
   -  include:
        file: /liquibase/changelog-05.yaml
+  -  include:
+       file: /liquibase/changelog-06.yaml

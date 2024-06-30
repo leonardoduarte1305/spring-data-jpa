@@ -1,9 +1,11 @@
 package dev.leoduarte.spingdatajpa.bootstrap;
 
 import dev.leoduarte.spingdatajpa.domain.Book;
+import dev.leoduarte.spingdatajpa.domain.BookUUID;
 import dev.leoduarte.spingdatajpa.domain.BookUUIDRFC4122;
 import dev.leoduarte.spingdatajpa.repository.BookRepository;
 import dev.leoduarte.spingdatajpa.repository.BookUuidRFC4122Repository;
+import dev.leoduarte.spingdatajpa.repository.BookUuidRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Profile;
@@ -19,10 +21,12 @@ public class DataInitializer implements CommandLineRunner {
 
     private final BookRepository bookRepository;
     private final BookUuidRFC4122Repository rfc4122Repository;
+    private final BookUuidRepository uuidRepository;
 
     @Override
     public void run(String... args) throws Exception {
         bookRepository.deleteAll();
+        uuidRepository.deleteAll();
         rfc4122Repository.deleteAll();
 
         Book book1 = new Book(null, "Title 1", "ISBN 11", "Plublisher 21", 1L);
@@ -44,6 +48,9 @@ public class DataInitializer implements CommandLineRunner {
         BookUUIDRFC4122 savedBookUUIDRFC4122 = rfc4122Repository.save(uuidrfc4122);
         System.out.println("savedBookUUIDRFC4122 = " + savedBookUUIDRFC4122);
 
+        BookUUID bookUUID = new BookUUID(null, "BookUUIDRFC4122 1", "ISBN BookUUIDRFC4122", "Publisher: BookUUIDRFC4122", 1L);
+        BookUUID savedBookUUID = uuidRepository.save(bookUUID);
+        System.out.println("savedBookUUID = " + savedBookUUID);
     }
 
 }
