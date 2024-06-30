@@ -1,7 +1,9 @@
 package dev.leoduarte.spingdatajpa.bootstrap;
 
 import dev.leoduarte.spingdatajpa.domain.Book;
+import dev.leoduarte.spingdatajpa.domain.BookUUIDRFC4122;
 import dev.leoduarte.spingdatajpa.repository.BookRepository;
+import dev.leoduarte.spingdatajpa.repository.BookUuidRFC4122Repository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Profile;
@@ -16,10 +18,12 @@ import java.util.List;
 public class DataInitializer implements CommandLineRunner {
 
     private final BookRepository bookRepository;
+    private final BookUuidRFC4122Repository rfc4122Repository;
 
     @Override
     public void run(String... args) throws Exception {
         bookRepository.deleteAll();
+        rfc4122Repository.deleteAll();
 
         Book book1 = new Book(null, "Title 1", "ISBN 11", "Plublisher 21", 1L);
         Book book2 = new Book(null, "Title 2", "ISBN 12", "Plublisher 22", 2L);
@@ -35,6 +39,11 @@ public class DataInitializer implements CommandLineRunner {
 
         List<Book> books = bookRepository.findAll();
         books.forEach(System.out::println);
+
+        BookUUIDRFC4122 uuidrfc4122 = new BookUUIDRFC4122(null, "BookUUIDRFC4122 1", "ISBN BookUUIDRFC4122", "Publisher: BookUUIDRFC4122", 1L);
+        BookUUIDRFC4122 savedBookUUIDRFC4122 = rfc4122Repository.save(uuidrfc4122);
+        System.out.println("savedBookUUIDRFC4122 = " + savedBookUUIDRFC4122);
+
     }
 
 }

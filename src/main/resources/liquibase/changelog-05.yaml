@@ -1,0 +1,27 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1719488983096-1
+      author: spring-data-jpa-app
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    updatable: false
+                    primaryKey: true
+                  name: id
+                  type: BINARY(16)
+              - column:
+                  name: title
+                  type: VARCHAR(255)
+              - column:
+                  name: isbn
+                  type: VARCHAR(255)
+              - column:
+                  name: publisher
+                  type: VARCHAR(255)
+              - column:
+                  name: author_id
+                  type: BIGINT
+            tableName: book_uuid_rfc4122
