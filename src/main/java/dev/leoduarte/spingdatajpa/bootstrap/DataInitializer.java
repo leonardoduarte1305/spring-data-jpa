@@ -4,6 +4,9 @@ import dev.leoduarte.spingdatajpa.domain.Book;
 import dev.leoduarte.spingdatajpa.domain.BookNaturalKey;
 import dev.leoduarte.spingdatajpa.domain.BookUUID;
 import dev.leoduarte.spingdatajpa.domain.BookUUIDRFC4122;
+import dev.leoduarte.spingdatajpa.domain.compositekey.BookCompositeKey;
+import dev.leoduarte.spingdatajpa.domain.compositekey.CompositeKey;
+import dev.leoduarte.spingdatajpa.repository.BookCompositeKeyRepository;
 import dev.leoduarte.spingdatajpa.repository.BookNaturalKeyRepository;
 import dev.leoduarte.spingdatajpa.repository.BookRepository;
 import dev.leoduarte.spingdatajpa.repository.BookUuidRFC4122Repository;
@@ -25,6 +28,7 @@ public class DataInitializer implements CommandLineRunner {
     private final BookUuidRFC4122Repository rfc4122Repository;
     private final BookUuidRepository uuidRepository;
     private final BookNaturalKeyRepository naturalKeyRepository;
+    private final BookCompositeKeyRepository compositeKeyRepository;
 
     @Override
     public void run(String... args) throws Exception {
@@ -32,6 +36,7 @@ public class DataInitializer implements CommandLineRunner {
         uuidRepository.deleteAll();
         rfc4122Repository.deleteAll();
         naturalKeyRepository.deleteAll();
+        compositeKeyRepository.deleteAll();
 
         Book book1 = new Book(null, "Title 1", "ISBN 11", "Plublisher 21", 1L);
         Book book2 = new Book(null, "Title 2", "ISBN 12", "Plublisher 22", 2L);
@@ -59,6 +64,11 @@ public class DataInitializer implements CommandLineRunner {
         BookNaturalKey bookNatualKey = new BookNaturalKey("BookNaturalKey 1", "ISBN BookNaturalKey", "Publisher: BookNaturalKey", 1L);
         BookNaturalKey savedBookNaturalKey = naturalKeyRepository.save(bookNatualKey);
         System.out.println("savedBookNaturalKey = " + savedBookNaturalKey);
+
+        CompositeKey compositeKey = new CompositeKey("BookCompositeKey 1", "ISBN BookCompositeKey");
+        BookCompositeKey bookCompositeKey = new BookCompositeKey("BookCompositeKey 1", "ISBN BookCompositeKey", "Publisher: BookCompositeKey", 1L);
+        BookCompositeKey savedBookCompositeKey = compositeKeyRepository.save(bookCompositeKey);
+        System.out.println("savedBookCompositeKey = " + savedBookCompositeKey);
     }
 
 }
