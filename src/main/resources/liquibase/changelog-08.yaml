@@ -1,0 +1,28 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1719488983099-1
+      author: spring-data-jpa-app
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    updatable: false
+                    primaryKey: true
+                  name: title
+                  type: VARCHAR(255)
+              - column:
+                  constraints:
+                    nullable: false
+                    updatable: false
+                    primaryKey: true
+                  name: isbn
+                  type: VARCHAR(255)
+              - column:
+                  name: publisher
+                  type: VARCHAR(255)
+              - column:
+                  name: author_id
+                  type: BIGINT
+            tableName: book_composite_key
