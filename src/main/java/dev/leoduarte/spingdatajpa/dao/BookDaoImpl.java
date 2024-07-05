@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 @Component
 @RequiredArgsConstructor
@@ -63,6 +64,66 @@ public class BookDaoImpl implements BookDao {
         }
 
         return null;
+    }
+
+    @Override
+    public Book saveNewBook(Book book) {
+        Connection connection = null;
+        ResultSet resultSet = null;
+        PreparedStatement ps = null;
+
+        try {
+            connection = source.getConnection();
+            long idToBeSaved = getTheNextBookId(connection);
+
+            ps = connection.prepareStatement("INSERT INTO book (id, title, isbn, publisher, author_id) VALUES (?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+            ps.setLong(1, idToBeSaved);
+            ps.setString(2, book.getTitle());
+            ps.setString(3, book.getIsbn());
+            ps.setString(4, book.getPublisher());
+            ps.setLong(5, book.getAuthorId());
+            ps.execute();
+
+            return getById(idToBeSaved);
+        } catch (SQLException e) {
+            throw new RuntimeException("The entity could not be saved properly.", e);
+        } finally {
+            closeAllResources(resultSet, ps, connection);
+        }
+    }
+
+    private long getTheNextBookId(Connection connection) throws SQLException {
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery("SELECT next_val FROM book_seq");
+        if (resultSet.next()) {
+            long nextId = resultSet.getLong(1);
+            statement.executeUpdate("UPDATE book_seq SET next_val = " + (nextId + 1));
+
+            statement.close();
+            resultSet.close();
+            return nextId;
+        } else {
+            statement.close();
+            resultSet.close();
+            throw new SQLException("Failed to retrieve next sequence value.");
+        }
+    }
+
+    private Long getTheLastSavedId(Connection connection) throws SQLException {
+        Statement statement = connection.createStatement();
+        // SELECT LAST_INSERT_ID() -> is a MySQL only functionality
+        ResultSet resultSet = statement.executeQuery("SELECT LAST_INSERT_ID()");
+        if (resultSet.next()) {
+            long result = resultSet.getLong(1);
+            statement.close();
+            resultSet.close();
+
+            return result;
+        } else {
+            statement.close();
+            resultSet.close();
+            throw new SQLException("No ID was returned.  Please try again.");
+        }
     }
 
     private static Book buildBookToReturn(long id, ResultSet resultSet) throws SQLException {
