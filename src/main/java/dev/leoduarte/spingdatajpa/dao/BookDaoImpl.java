@@ -50,6 +50,39 @@ public class BookDaoImpl implements BookDao {
         return null;
     }
 
+    @Override
+    public Book getByTitleAndPublisher(String title, String publisher) {
+        Connection connection = null;
+        ResultSet resultSet = null;
+        PreparedStatement ps = null;
+
+        try {
+            connection = source.getConnection();
+            ps = connection.prepareStatement("SELECT * FROM book WHERE title = ? AND publisher = ?");
+            ps.setString(1, title);
+            ps.setString(2, publisher);
+            resultSet = ps.executeQuery();
+
+            if (resultSet.next()) {
+                Book book = new Book();
+                book.setId(resultSet.getLong("id"));
+                book.setAuthorId(resultSet.getLong("author_id"));
+                book.setIsbn(resultSet.getString("isbn"));
+                book.setTitle(resultSet.getString("title"));
+                book.setPublisher(resultSet.getString("publisher"));
+
+                System.out.println("Found book = " + book);
+                return book;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Entity not found with title = " + title + " and publisher = " + publisher, e);
+        } finally {
+            closeResources(resultSet, ps, connection);
+        }
+
+        return null;
+    }
+
     private static void closeResources(ResultSet resultSet, PreparedStatement ps, Connection connection) {
         try {
             if (resultSet != null) {

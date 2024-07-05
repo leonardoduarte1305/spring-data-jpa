@@ -41,4 +41,20 @@ class BookDaoImplIntegrationTest {
         System.err.println("Book Publisher: " + book.getPublisher());
         System.err.println("Book Author Id: " + book.getAuthorId());
     }
+
+    @Test
+    void getBookByTitleAndPublisher() {
+        String title = "Title 1";
+        String publisher = "Plublisher 21";
+        Book book = bookDao.getByTitleAndPublisher(title, publisher);
+        Assertions.assertThat(book).isNotNull();
+
+
+        // Printing to make sure that it's working fine
+        System.err.println("Book Id: " + book.getId());
+        System.err.println("Book Title: " + book.getTitle());
+        System.err.println("Book Isbn: " + book.getIsbn());
+        System.err.println("Book Publisher: " + book.getPublisher());
+        System.err.println("Book Author Id: " + book.getAuthorId());
+    }
 }
