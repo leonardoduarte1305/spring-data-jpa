@@ -35,11 +35,7 @@ class BookDaoImplIntegrationTest {
 
 
         // Printing to make sure that it's working fine
-        System.err.println("Book Id: " + book.getId());
-        System.err.println("Book Title: " + book.getTitle());
-        System.err.println("Book Isbn: " + book.getIsbn());
-        System.err.println("Book Publisher: " + book.getPublisher());
-        System.err.println("Book Author Id: " + book.getAuthorId());
+        printingBook(book);
     }
 
     @Test
@@ -50,6 +46,10 @@ class BookDaoImplIntegrationTest {
         Assertions.assertThat(book).isNotNull();
 
 
+        printingBook(book);
+    }
+
+    private static void printingBook(Book book) {
         // Printing to make sure that it's working fine
         System.err.println("Book Id: " + book.getId());
         System.err.println("Book Title: " + book.getTitle());
