@@ -1,6 +1,7 @@
 package dev.leoduarte.spingdatajpa.dao;
 
 import dev.leoduarte.spingdatajpa.domain.Book;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import javax.sql.DataSource;
@@ -10,13 +11,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 @Component
+@RequiredArgsConstructor
 public class BookDaoImpl implements BookDao {
 
     private final DataSource source;
-
-    public BookDaoImpl(DataSource source) {
-        this.source = source;
-    }
 
     @Override
     public Book getById(long id) {
@@ -31,20 +29,12 @@ public class BookDaoImpl implements BookDao {
             resultSet = ps.executeQuery();
 
             if (resultSet.next()) {
-                Book book = new Book();
-                book.setId(id);
-                book.setAuthorId(resultSet.getLong("author_id"));
-                book.setIsbn(resultSet.getString("isbn"));
-                book.setTitle(resultSet.getString("title"));
-                book.setPublisher(resultSet.getString("publisher"));
-
-                System.out.println("Found book = " + book);
-                return book;
+                return buildBookToReturn(id, resultSet);
             }
         } catch (SQLException e) {
             throw new RuntimeException("Entity not found with id = " + id, e);
         } finally {
-            closeResources(resultSet, ps, connection);
+            closeAllResources(resultSet, ps, connection);
         }
 
         return null;
@@ -64,40 +54,46 @@ public class BookDaoImpl implements BookDao {
             resultSet = ps.executeQuery();
 
             if (resultSet.next()) {
-                Book book = new Book();
-                book.setId(resultSet.getLong("id"));
-                book.setAuthorId(resultSet.getLong("author_id"));
-                book.setIsbn(resultSet.getString("isbn"));
-                book.setTitle(resultSet.getString("title"));
-                book.setPublisher(resultSet.getString("publisher"));
-
-                System.out.println("Found book = " + book);
-                return book;
+                return buildBookToReturn(resultSet.getLong("id"), resultSet);
             }
         } catch (SQLException e) {
             throw new RuntimeException("Entity not found with title = " + title + " and publisher = " + publisher, e);
         } finally {
-            closeResources(resultSet, ps, connection);
+            closeAllResources(resultSet, ps, connection);
         }
 
         return null;
     }
 
-    private static void closeResources(ResultSet resultSet, PreparedStatement ps, Connection connection) {
+    private static Book buildBookToReturn(long id, ResultSet resultSet) throws SQLException {
+        return new Book(id, resultSet.getString("title"), resultSet.getString("isbn"), resultSet.getString("publisher"), resultSet.getLong("author_id"));
+    }
+
+    private static void closeAllResources(ResultSet resultSet, PreparedStatement ps, Connection connection) {
         try {
-            if (resultSet != null) {
-                resultSet.close();
-            }
-
-            if (ps != null) {
-                ps.close();
-            }
-
-            if (connection != null) {
-                connection.close();
-            }
+            closeResultSet(resultSet);
+            closePreparedStatement(ps);
+            closeConnection(connection);
         } catch (SQLException e) {
             throw new RuntimeException("Error closing one or more of those resources.", e);
+        }
+    }
+
+    private static void closeResultSet(ResultSet resultSet) throws SQLException {
+        if (resultSet != null) {
+            resultSet.close();
+        }
+    }
+
+    private static void closePreparedStatement(PreparedStatement ps) throws SQLException {
+        if (ps != null) {
+            ps.close();
+        }
+    }
+
+    private static void closeConnection(Connection connection) throws SQLException {
+        if (connection != null) {
+            connection.close();
         }
     }
 }
