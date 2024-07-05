@@ -5,9 +5,9 @@ import org.springframework.stereotype.Component;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 @Component
 public class BookDaoImpl implements BookDao {
@@ -21,14 +21,15 @@ public class BookDaoImpl implements BookDao {
     @Override
     public Book getById(long id) {
         Connection connection = null;
-        Statement statement = null;
         ResultSet resultSet = null;
+        PreparedStatement ps = null;
 
         try {
             connection = source.getConnection();
-            statement = connection.createStatement();
-            // This approach allows SQL Injection, so this is not a good use
-            resultSet = statement.executeQuery("SELECT * FROM book WHERE id = " + id);
+            ps = connection.prepareStatement("SELECT * FROM book WHERE id = ?");
+            ps.setLong(1, id);
+            resultSet = ps.executeQuery();
+
             if (resultSet.next()) {
                 Book book = new Book();
                 book.setId(id);
@@ -43,23 +44,27 @@ public class BookDaoImpl implements BookDao {
         } catch (SQLException e) {
             throw new RuntimeException("Entity not found with id = " + id, e);
         } finally {
-            try {
-                if (resultSet != null) {
-                    resultSet.close();
-                }
-
-                if (statement != null) {
-                    statement.close();
-                }
-
-                if (connection != null) {
-                    connection.close();
-                }
-            } catch (SQLException e) {
-                throw new RuntimeException("Error closing one or more of those resources.", e);
-            }
+            closeResources(resultSet, ps, connection);
         }
 
         return null;
+    }
+
+    private static void closeResources(ResultSet resultSet, PreparedStatement ps, Connection connection) {
+        try {
+            if (resultSet != null) {
+                resultSet.close();
+            }
+
+            if (ps != null) {
+                ps.close();
+            }
+
+            if (connection != null) {
+                connection.close();
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Error closing one or more of those resources.", e);
+        }
     }
 }
