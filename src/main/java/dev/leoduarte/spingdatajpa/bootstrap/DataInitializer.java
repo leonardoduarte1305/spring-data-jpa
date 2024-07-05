@@ -6,7 +6,10 @@ import dev.leoduarte.spingdatajpa.domain.BookUUID;
 import dev.leoduarte.spingdatajpa.domain.BookUUIDRFC4122;
 import dev.leoduarte.spingdatajpa.domain.compositekey.BookCompositeKey;
 import dev.leoduarte.spingdatajpa.domain.compositekey.CompositeKey;
+import dev.leoduarte.spingdatajpa.domain.embeddedkey.BookEmbeddedKey;
+import dev.leoduarte.spingdatajpa.domain.embeddedkey.CompositeEmbeddedKey;
 import dev.leoduarte.spingdatajpa.repository.BookCompositeKeyRepository;
+import dev.leoduarte.spingdatajpa.repository.BookEmbeddedKeyRepository;
 import dev.leoduarte.spingdatajpa.repository.BookNaturalKeyRepository;
 import dev.leoduarte.spingdatajpa.repository.BookRepository;
 import dev.leoduarte.spingdatajpa.repository.BookUuidRFC4122Repository;
@@ -29,6 +32,7 @@ public class DataInitializer implements CommandLineRunner {
     private final BookUuidRepository uuidRepository;
     private final BookNaturalKeyRepository naturalKeyRepository;
     private final BookCompositeKeyRepository compositeKeyRepository;
+    private final BookEmbeddedKeyRepository embeddedKeyRepository;
 
     @Override
     public void run(String... args) throws Exception {
@@ -37,6 +41,7 @@ public class DataInitializer implements CommandLineRunner {
         rfc4122Repository.deleteAll();
         naturalKeyRepository.deleteAll();
         compositeKeyRepository.deleteAll();
+        embeddedKeyRepository.deleteAll();
 
         Book book1 = new Book(null, "Title 1", "ISBN 11", "Plublisher 21", 1L);
         Book book2 = new Book(null, "Title 2", "ISBN 12", "Plublisher 22", 2L);
@@ -69,6 +74,12 @@ public class DataInitializer implements CommandLineRunner {
         BookCompositeKey bookCompositeKey = new BookCompositeKey("BookCompositeKey 1", "ISBN BookCompositeKey", "Publisher: BookCompositeKey", 1L);
         BookCompositeKey savedBookCompositeKey = compositeKeyRepository.save(bookCompositeKey);
         System.out.println("savedBookCompositeKey = " + savedBookCompositeKey);
+
+        CompositeEmbeddedKey embeddedKey = new CompositeEmbeddedKey("BookEmbeddedKey 1", "ISBN BookEmbeddedKey");
+        BookEmbeddedKey bookEmbeddedKey = new BookEmbeddedKey(embeddedKey, "Publisher: BookCompositeKey", 1L);
+        BookEmbeddedKey savedBookEmbeddedKey = embeddedKeyRepository.save(bookEmbeddedKey);
+        System.out.println("savedBookEmbeddedKey = " + savedBookEmbeddedKey);
+
     }
 
 }
