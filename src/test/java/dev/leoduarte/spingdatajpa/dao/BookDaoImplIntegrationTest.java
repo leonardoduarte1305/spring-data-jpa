@@ -84,7 +84,27 @@ class BookDaoImplIntegrationTest {
 
         printingBook(bookUpdated);
     }
-    
+
+    @Test
+    void deleteBookById() {
+        String title = "Title 1";
+        String publisher = "Plublisher 21";
+        String isbn = "ISBN 1";
+        Long authorId = 999L;
+        Book bookToSave = new Book(null, title, isbn, publisher, authorId);
+        Book book = bookDao.saveNewBook(bookToSave);
+
+        Assertions.assertThat(book).isNotNull();
+
+        bookDao.deleteById(book.getId());
+
+        Book deletedBook = bookDao.getById(book.getId());
+
+        Assertions.assertThat(deletedBook).isNull();
+
+        printingBook(book);
+    }
+
     private static void printingBook(Book book) {
         // Printing to make sure that it's working fine
         System.err.println("Book Id: " + book.getId());
