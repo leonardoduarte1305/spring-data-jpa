@@ -64,6 +64,27 @@ class BookDaoImplIntegrationTest {
         printingBook(book);
     }
 
+    @Test
+    void updateBook() {
+        String title = "Title 1";
+        String publisher = "Plublisher 21";
+        String isbn = "ISBN 1";
+        Long authorId = 999L;
+        Book bookToSave = new Book(null, title, isbn, publisher, authorId);
+        Book bookAlreadySaved = bookDao.saveNewBook(bookToSave);
+
+        Assertions.assertThat(bookAlreadySaved).isNotNull();
+        printingBook(bookAlreadySaved);
+
+        String newPublisher = "Completely New Publisher";
+        bookAlreadySaved.setPublisher(newPublisher);
+        Book bookUpdated = bookDao.updateBook(bookAlreadySaved.getId(), bookAlreadySaved);
+
+        Assertions.assertThat(bookUpdated.getPublisher()).isEqualTo(newPublisher);
+
+        printingBook(bookUpdated);
+    }
+    
     private static void printingBook(Book book) {
         // Printing to make sure that it's working fine
         System.err.println("Book Id: " + book.getId());

@@ -9,4 +9,7 @@ public interface BookDao {
     Book getByTitleAndPublisher(String title, String publisher);
 
     Book saveNewBook(Book book);
+
+    Book updateBook(Long id, Book book);
+
 }
