@@ -1,6 +1,8 @@
 package dev.leoduarte.spingdatajpa;
 
+import dev.leoduarte.spingdatajpa.domain.Author;
 import dev.leoduarte.spingdatajpa.domain.Book;
+import dev.leoduarte.spingdatajpa.repository.AuthorRepository;
 import dev.leoduarte.spingdatajpa.repository.BookRepository;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
@@ -24,6 +26,8 @@ public class SpringBootJpaTestSliceTest {
 
     @Autowired
     BookRepository bookRepository;
+    @Autowired
+    private AuthorRepository authorRepository;
 
     @Test
     // @Commit // The same of @Rollback(value = false)
@@ -33,7 +37,9 @@ public class SpringBootJpaTestSliceTest {
         long countBefore = bookRepository.count();
         assertThat(countBefore).isEqualTo(9);
 
-        bookRepository.save(new Book(null, "Test Book", "123456789", "Test ISBN", 2L));
+        Author savedAuthor = authorRepository.save(new Author(null, "First Name Test", "Last Name Test"));
+
+        bookRepository.save(new Book(null, "Test Book", "123456789", "Test ISBN", savedAuthor));
         long countAfterInsert = bookRepository.count();
 
         assertThat(countBefore).isLessThan(countAfterInsert);

@@ -1,5 +1,6 @@
-package dev.leoduarte.spingdatajpa.dao;
+package dev.leoduarte.spingdatajpa.dao.oldjdbc;
 
+import dev.leoduarte.spingdatajpa.dao.AuthorDao;
 import dev.leoduarte.spingdatajpa.domain.Author;
 import dev.leoduarte.spingdatajpa.repository.AuthorRepository;
 import org.assertj.core.api.Assertions;
