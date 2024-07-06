@@ -1,6 +1,9 @@
-package dev.leoduarte.spingdatajpa.dao;
+package dev.leoduarte.spingdatajpa.dao.oldjdbc;
 
+import dev.leoduarte.spingdatajpa.dao.BookDao;
+import dev.leoduarte.spingdatajpa.domain.Author;
 import dev.leoduarte.spingdatajpa.domain.Book;
+import dev.leoduarte.spingdatajpa.repository.AuthorRepository;
 import dev.leoduarte.spingdatajpa.repository.BookRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.MethodOrderer;
@@ -26,6 +29,9 @@ class BookDaoImplIntegrationTest {
 
     @Autowired // Just to get the id, because it is dinamically generated
     BookRepository bookRepository;
+
+    @Autowired
+    AuthorRepository authorRepository;
 
     @Test
     void getById() {
@@ -78,12 +84,11 @@ class BookDaoImplIntegrationTest {
         Assertions.assertThat(deletedBook).isNull();
     }
 
-    private static Book getNewBook() {
+    private Book getNewBook() {
         String title = "Title 1";
         String publisher = "Plublisher 21";
         String isbn = "ISBN 1";
-        Long authorId = 999L;
-        Book bookToSave = new Book(null, title, isbn, publisher, authorId);
-        return bookToSave;
+        Author author = authorRepository.findAll().stream().findFirst().get();
+        return new Book(null, title, isbn, publisher, author);
     }
 }
