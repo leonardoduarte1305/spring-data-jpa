@@ -118,6 +118,25 @@ public class BookDaoImpl implements BookDao {
         return getById(id);
     }
 
+    @Override
+    public void deleteById(Long id) {
+        Connection connection = null;
+        PreparedStatement ps = null;
+
+        try {
+            connection = source.getConnection();
+
+            ps = connection.prepareStatement("DELETE FROM book WHERE book.id = ?", Statement.RETURN_GENERATED_KEYS);
+            ps.setLong(1, id);
+            ps.execute();
+
+        } catch (SQLException e) {
+            throw new RuntimeException("The entity could not be deleted properly.", e);
+        } finally {
+            closeAllResources(null, ps, connection);
+        }
+    }
+
     private long getTheNextBookId(Connection connection) throws SQLException {
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery("SELECT next_val FROM book_seq");
