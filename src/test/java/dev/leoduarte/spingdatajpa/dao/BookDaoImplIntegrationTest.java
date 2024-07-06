@@ -32,10 +32,6 @@ class BookDaoImplIntegrationTest {
         Long bookId = bookRepository.findAll().stream().findFirst().get().getId();
         Book book = bookDao.getById(bookId);
         Assertions.assertThat(book).isNotNull();
-
-
-        // Printing to make sure that it's working fine
-        printingBook(book);
     }
 
     @Test
@@ -44,54 +40,33 @@ class BookDaoImplIntegrationTest {
         String publisher = "Plublisher 21";
         Book book = bookDao.getByTitleAndPublisher(title, publisher);
         Assertions.assertThat(book).isNotNull();
-
-
-        printingBook(book);
     }
 
     @Test
     void saveBook() {
-        String title = "Title 1";
-        String publisher = "Plublisher 21";
-        String isbn = "ISBN 1";
-        Long authorId = 999L;
-        Book bookToSave = new Book(null, title, isbn, publisher, authorId);
+        Book bookToSave = getNewBook();
         Book book = bookDao.saveNewBook(bookToSave);
 
         Assertions.assertThat(book).isNotNull();
-
-
-        printingBook(book);
     }
 
     @Test
     void updateBook() {
-        String title = "Title 1";
-        String publisher = "Plublisher 21";
-        String isbn = "ISBN 1";
-        Long authorId = 999L;
-        Book bookToSave = new Book(null, title, isbn, publisher, authorId);
+        Book bookToSave = getNewBook();
         Book bookAlreadySaved = bookDao.saveNewBook(bookToSave);
 
         Assertions.assertThat(bookAlreadySaved).isNotNull();
-        printingBook(bookAlreadySaved);
 
         String newPublisher = "Completely New Publisher";
         bookAlreadySaved.setPublisher(newPublisher);
         Book bookUpdated = bookDao.updateBook(bookAlreadySaved.getId(), bookAlreadySaved);
 
         Assertions.assertThat(bookUpdated.getPublisher()).isEqualTo(newPublisher);
-
-        printingBook(bookUpdated);
     }
 
     @Test
     void deleteBookById() {
-        String title = "Title 1";
-        String publisher = "Plublisher 21";
-        String isbn = "ISBN 1";
-        Long authorId = 999L;
-        Book bookToSave = new Book(null, title, isbn, publisher, authorId);
+        Book bookToSave = getNewBook();
         Book book = bookDao.saveNewBook(bookToSave);
 
         Assertions.assertThat(book).isNotNull();
@@ -101,16 +76,14 @@ class BookDaoImplIntegrationTest {
         Book deletedBook = bookDao.getById(book.getId());
 
         Assertions.assertThat(deletedBook).isNull();
-
-        printingBook(book);
     }
 
-    private static void printingBook(Book book) {
-        // Printing to make sure that it's working fine
-        System.err.println("Book Id: " + book.getId());
-        System.err.println("Book Title: " + book.getTitle());
-        System.err.println("Book Isbn: " + book.getIsbn());
-        System.err.println("Book Publisher: " + book.getPublisher());
-        System.err.println("Book Author Id: " + book.getAuthorId());
+    private static Book getNewBook() {
+        String title = "Title 1";
+        String publisher = "Plublisher 21";
+        String isbn = "ISBN 1";
+        Long authorId = 999L;
+        Book bookToSave = new Book(null, title, isbn, publisher, authorId);
+        return bookToSave;
     }
 }
