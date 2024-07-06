@@ -92,6 +92,32 @@ public class BookDaoImpl implements BookDao {
         }
     }
 
+    @Override
+    public Book updateBook(Long id, Book book) {
+        Connection connection = null;
+        ResultSet resultSet = null;
+        PreparedStatement ps = null;
+
+        try {
+            connection = source.getConnection();
+
+            ps = connection.prepareStatement("UPDATE book SET book.title = ?, book.isbn = ?, book.publisher = ?, book.author_id = ? WHERE book.id = ?", Statement.RETURN_GENERATED_KEYS);
+            ps.setString(1, book.getTitle());
+            ps.setString(2, book.getIsbn());
+            ps.setString(3, book.getPublisher());
+            ps.setLong(4, book.getAuthorId());
+            ps.setLong(5, id);
+            ps.execute();
+
+        } catch (SQLException e) {
+            throw new RuntimeException("The entity could not be saved properly.", e);
+        } finally {
+            closeAllResources(resultSet, ps, connection);
+        }
+
+        return getById(id);
+    }
+
     private long getTheNextBookId(Connection connection) throws SQLException {
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery("SELECT next_val FROM book_seq");
