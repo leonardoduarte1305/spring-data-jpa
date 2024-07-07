@@ -9,9 +9,13 @@ import dev.leoduarte.spingdatajpa.domain.compositekey.BookCompositeKey;
 import dev.leoduarte.spingdatajpa.domain.compositekey.CompositeKey;
 import dev.leoduarte.spingdatajpa.domain.embeddedkey.BookEmbeddedKey;
 import dev.leoduarte.spingdatajpa.domain.embeddedkey.CompositeEmbeddedKey;
+import dev.leoduarte.spingdatajpa.domain.hibernate.AuthorHibernate;
+import dev.leoduarte.spingdatajpa.domain.hibernate.BookHibernate;
+import dev.leoduarte.spingdatajpa.repository.AuthorHibernateRepository;
 import dev.leoduarte.spingdatajpa.repository.AuthorRepository;
 import dev.leoduarte.spingdatajpa.repository.BookCompositeKeyRepository;
 import dev.leoduarte.spingdatajpa.repository.BookEmbeddedKeyRepository;
+import dev.leoduarte.spingdatajpa.repository.BookHibernateRepository;
 import dev.leoduarte.spingdatajpa.repository.BookNaturalKeyRepository;
 import dev.leoduarte.spingdatajpa.repository.BookRepository;
 import dev.leoduarte.spingdatajpa.repository.BookUuidRFC4122Repository;
@@ -35,8 +39,10 @@ public class DataInitializer implements CommandLineRunner {
     private final BookNaturalKeyRepository naturalKeyRepository;
     private final BookCompositeKeyRepository compositeKeyRepository;
     private final BookEmbeddedKeyRepository embeddedKeyRepository;
+    private final BookHibernateRepository bookHibernateRepository;
 
     private final AuthorRepository authorRepository;
+    private final AuthorHibernateRepository authorHibernateRepository;
 
     @Override
     public void run(String... args) throws Exception {
@@ -46,8 +52,10 @@ public class DataInitializer implements CommandLineRunner {
         naturalKeyRepository.deleteAll();
         compositeKeyRepository.deleteAll();
         embeddedKeyRepository.deleteAll();
+        bookHibernateRepository.deleteAll();
 
         authorRepository.deleteAll();
+        authorHibernateRepository.deleteAll();
         Author author1 = new Author(null, "Leoduarte1", "Silva1");
         Author author2 = new Author(null, "Leoduarte2", "Silva2");
         Author author3 = new Author(null, "Leoduarte3", "Silva3");
@@ -97,6 +105,28 @@ public class DataInitializer implements CommandLineRunner {
         BookEmbeddedKey savedBookEmbeddedKey = embeddedKeyRepository.save(bookEmbeddedKey);
         System.out.println("savedBookEmbeddedKey = " + savedBookEmbeddedKey);
 
+        AuthorHibernate authorHibernate1 = new AuthorHibernate(null, "Leoduarte1", "Silva1");
+        AuthorHibernate authorHibernate2 = new AuthorHibernate(null, "Leoduarte2", "Silva2");
+        AuthorHibernate authorHibernate3 = new AuthorHibernate(null, "Leoduarte3", "Silva3");
+        AuthorHibernate authorHibernate4 = new AuthorHibernate(null, "Leoduarte4", "Silva4");
+        AuthorHibernate authorHibernate5 = new AuthorHibernate(null, "Leoduarte5", "Silva5");
+        AuthorHibernate authorHibernate6 = new AuthorHibernate(null, "Leoduarte6", "Silva6");
+        AuthorHibernate authorHibernate7 = new AuthorHibernate(null, "Leoduarte7", "Silva7");
+        AuthorHibernate authorHibernate8 = new AuthorHibernate(null, "Leoduarte8", "Silva8");
+        AuthorHibernate authorHibernate9 = new AuthorHibernate(null, "Leoduarte9", "Silva9");
+        authorHibernateRepository.saveAll(List.of(authorHibernate1, authorHibernate2, authorHibernate3, authorHibernate4, authorHibernate5, authorHibernate6, authorHibernate7));
+
+
+        BookHibernate bookHibernate1 = new BookHibernate(null, "Title 1", "ISBN 11", "Plublisher 21", authorHibernate1);
+        BookHibernate bookHibernate2 = new BookHibernate(null, "Title 2", "ISBN 12", "Plublisher 22", authorHibernate2);
+        BookHibernate bookHibernate3 = new BookHibernate(null, "Title 3", "ISBN 13", "Plublisher 23", authorHibernate3);
+        BookHibernate bookHibernate4 = new BookHibernate(null, "Title 4", "ISBN 14", "Plublisher 24", authorHibernate4);
+        BookHibernate bookHibernate5 = new BookHibernate(null, "Title 5", "ISBN 15", "Plublisher 25", authorHibernate5);
+        BookHibernate bookHibernate6 = new BookHibernate(null, "Title 6", "ISBN 16", "Plublisher 26", authorHibernate6);
+        BookHibernate bookHibernate7 = new BookHibernate(null, "Title 7", "ISBN 17", "Plublisher 27", authorHibernate7);
+        BookHibernate bookHibernate8 = new BookHibernate(null, "Title 8", "ISBN 18", "Plublisher 28", authorHibernate8);
+        BookHibernate bookHibernate9 = new BookHibernate(null, "Title 9", "ISBN 19", "Plublisher 29", authorHibernate9);
+        bookHibernateRepository.saveAll(Arrays.asList(bookHibernate1, bookHibernate2, bookHibernate3, bookHibernate4, bookHibernate5, bookHibernate6, bookHibernate7, bookHibernate8, bookHibernate9));
     }
 
 }

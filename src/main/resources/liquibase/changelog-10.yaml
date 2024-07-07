@@ -1,0 +1,44 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1719488983101-1
+      author: spring-data-jpa-app
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                  name: id
+                  type: BIGINT
+              - column:
+                  name: isbn
+                  type: VARCHAR(255)
+              - column:
+                  name: publisher
+                  type: VARCHAR(255)
+              - column:
+                  name: title
+                  type: VARCHAR(255)
+            tableName: book_hibernate
+  - changeSet:
+      id: 1719488983101-2
+      author: spring-data-jpa-app
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                  name: id
+                  type: BIGINT
+              - column:
+                  name: first_name
+                  type: VARCHAR(255)
+              - column:
+                  name: last_name
+                  type: VARCHAR(255)
+            tableName: author_hibernate
