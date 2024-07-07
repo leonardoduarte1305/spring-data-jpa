@@ -17,6 +17,8 @@ import org.springframework.context.annotation.Import;
 import org.springframework.test.annotation.Commit;
 import org.springframework.test.context.ActiveProfiles;
 
+import java.util.List;
+
 @DataJpaTest
 @ComponentScan(basePackages = {"dev.leoduarte.springdatajpa.bootstrap"})
 @Import(BookHibernateDaoImpl.class)
@@ -88,6 +90,25 @@ class BookHibernateDaoImplTest {
         BookHibernate removedEntity = bookDao.getById(book.getId());
 
         Assertions.assertThat(removedEntity).isNull();
+    }
+
+    @Test
+    @Order(6)
+    void getBookByISBN() {
+        String isbn = "ISBN 15";
+        BookHibernate book = bookDao.findByISBN(isbn);
+
+        Assertions.assertThat(book).isNotNull();
+        Assertions.assertThat(isbn).isEqualTo(book.getIsbn());
+    }
+
+    @Test
+    @Order(7)
+    void listAllAuthors() {
+        List<BookHibernate> found = bookDao.findAll();
+
+        Assertions.assertThat(found).isNotNull();
+        Assertions.assertThat(found).hasSizeGreaterThan(1);
     }
 
     private BookHibernate getNewBook() {

@@ -14,6 +14,8 @@ import org.springframework.context.annotation.Import;
 import org.springframework.test.annotation.Commit;
 import org.springframework.test.context.ActiveProfiles;
 
+import java.util.List;
+
 @DataJpaTest
 @ComponentScan(basePackages = {"dev.leoduarte.springdatajpa.bootstrap"})
 @Import({AuthorHibernateDaoImpl.class})
@@ -90,6 +92,25 @@ class AuthorHibernateDaoImplTest {
         AuthorHibernate removedEntity = authorDao.getById(savedAuthor.getId());
 
         Assertions.assertThat(removedEntity).isNull();
+    }
+
+    @Test
+    @Order(6)
+    void listAuthors() {
+        String lastName = "Silv";
+        List<AuthorHibernate> foundAuthors = authorDao.listAuthorByLastNameLike(lastName);
+
+        Assertions.assertThat(foundAuthors).isNotNull();
+        Assertions.assertThat(foundAuthors).hasSizeGreaterThan(1);
+    }
+
+    @Test
+    @Order(7)
+    void listAllAuthors() {
+        List<AuthorHibernate> foundAuthors = authorDao.findAll();
+
+        Assertions.assertThat(foundAuthors).isNotNull();
+        Assertions.assertThat(foundAuthors).hasSizeGreaterThan(1);
     }
 
     private static AuthorHibernate getNewAuthor() {

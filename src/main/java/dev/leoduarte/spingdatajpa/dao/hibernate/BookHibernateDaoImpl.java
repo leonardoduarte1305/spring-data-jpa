@@ -7,6 +7,8 @@ import jakarta.persistence.TypedQuery;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 @RequiredArgsConstructor
 public class BookHibernateDaoImpl implements BookHibernateDao {
@@ -57,6 +59,23 @@ public class BookHibernateDaoImpl implements BookHibernateDao {
         em.remove(bookHibernate);
         em.flush();
         em.getTransaction().commit();
+    }
+
+    @Override
+    public BookHibernate findByISBN(String isbn) {
+        try (EntityManager em = getEntityManager()) {
+            TypedQuery<BookHibernate> query = em.createQuery("SELECT b FROM BookHibernate b WHERE b.isbn = :isbn", BookHibernate.class);
+            query.setParameter("isbn", isbn);
+            return query.getSingleResult();
+        }
+    }
+
+    @Override
+    public List<BookHibernate> findAll() {
+        try (EntityManager em = getEntityManager()) {
+            TypedQuery<BookHibernate> query = em.createNamedQuery("book_find_all", BookHibernate.class);
+            return query.getResultList();
+        }
     }
 
     private EntityManager getEntityManager() {

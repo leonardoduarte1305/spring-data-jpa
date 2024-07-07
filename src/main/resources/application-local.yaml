@@ -8,6 +8,10 @@ spring:
     username: bookuser
     password: password
     url: jdbc:mysql://${database.server}:${database.port}/${database.name}?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
+    hikari:
+      idle-timeout: 60000
+      maximum-pool-size: 20
+      connection-timeout: 30000
   sql:
     init:
       mode: always
@@ -15,7 +19,6 @@ spring:
     change-log: liquibase-changelog-master.yaml
     user: bookadmin
     password: password
-
 database:
   name: bookdb
   port: 3306

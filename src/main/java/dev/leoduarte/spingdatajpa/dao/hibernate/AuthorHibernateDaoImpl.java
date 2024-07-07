@@ -7,11 +7,30 @@ import jakarta.persistence.TypedQuery;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 @RequiredArgsConstructor
 public class AuthorHibernateDaoImpl implements AuthorHibernateDao {
 
     private final EntityManagerFactory emf;
+
+    @Override
+    public List<AuthorHibernate> listAuthorByLastNameLike(String lastName) {
+        try (EntityManager em = getEntityManager()) {
+            TypedQuery<AuthorHibernate> query = em.createQuery("SELECT a FROM AuthorHibernate a WHERE a.lastName LIKE :last_name", AuthorHibernate.class);
+            query.setParameter("last_name", "%" + lastName + "%");
+            return query.getResultList();
+        }
+    }
+
+    @Override
+    public List<AuthorHibernate> findAll() {
+        try (EntityManager em = getEntityManager()) {
+            TypedQuery<AuthorHibernate> query = em.createNamedQuery("author_find_all", AuthorHibernate.class);
+            return query.getResultList();
+        }
+    }
 
     @Override
     public AuthorHibernate getById(long id) {

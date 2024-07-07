@@ -2,7 +2,13 @@ package dev.leoduarte.spingdatajpa.dao.hibernate;
 
 import dev.leoduarte.spingdatajpa.domain.hibernate.BookHibernate;
 
+import java.util.List;
+
 public interface BookHibernateDao {
+
+    List<BookHibernate> findAll();
+
+    BookHibernate findByISBN(String isbn);
 
     BookHibernate getById(long id);
 

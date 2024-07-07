@@ -4,6 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.NamedQuery;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 import lombok.AllArgsConstructor;
@@ -17,6 +18,7 @@ import lombok.ToString;
 @Setter
 @Entity
 @ToString
+@NamedQuery(name = "book_find_all", query = "FROM BookHibernate ")
 @Table(name = "BOOK_HIBERNATE")
 @NoArgsConstructor
 @AllArgsConstructor
