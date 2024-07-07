@@ -21,6 +21,15 @@ public class BookHibernateDaoImpl implements BookHibernateDao {
     }
 
     @Override
+    public BookHibernate getByIsbnWithNamedQuery(String isbn) {
+        EntityManager em = getEntityManager();
+        TypedQuery<BookHibernate> query = em.createNamedQuery("book_find_by_isbn", BookHibernate.class);
+        query.setParameter("isbn", isbn);
+
+        return query.getSingleResult();
+    }
+
+    @Override
     public BookHibernate getByTitleAndPublisher(String title, String publisher) {
         TypedQuery<BookHibernate> query = getEntityManager()
                 .createQuery("SELECT b FROM BookHibernate b WHERE b.title = :title AND b.publisher = :publisher",

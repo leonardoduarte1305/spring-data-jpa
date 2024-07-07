@@ -111,6 +111,16 @@ class BookHibernateDaoImplTest {
         Assertions.assertThat(found).hasSizeGreaterThan(1);
     }
 
+    @Test
+    @Order(8)
+    void getByIsbnWithNamedQuery() {
+        String isbn = "ISBN 15";
+        BookHibernate book = bookDao.getByIsbnWithNamedQuery(isbn);
+
+        Assertions.assertThat(book).isNotNull();
+        Assertions.assertThat(isbn).isEqualTo(book.getIsbn());
+    }
+
     private BookHibernate getNewBook() {
         String title = "Title";
         String publisher = "Plublisher";

@@ -113,6 +113,18 @@ class AuthorHibernateDaoImplTest {
         Assertions.assertThat(foundAuthors).hasSizeGreaterThan(1);
     }
 
+    @Test
+    @Order(8)
+    void getByFirstAndLastNameWithNamedQuery() {
+        String firstName = "Hibernate First Name";
+        String lastName = "Hibernate Last Name";
+        AuthorHibernate author = authorDao.getByFirstAndLastNameWithNamedQuery(firstName, lastName);
+
+        Assertions.assertThat(author).isNotNull();
+        Assertions.assertThat(author.getFirstName()).isEqualTo(firstName);
+        Assertions.assertThat(author.getLastName()).isEqualTo(lastName);
+    }
+
     private static AuthorHibernate getNewAuthor() {
         String firstName = "First Name 1";
         String lastName = "Last Name 1";

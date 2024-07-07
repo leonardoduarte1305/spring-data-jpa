@@ -18,7 +18,10 @@ import lombok.ToString;
 @Setter
 @Entity
 @ToString
-@NamedQuery(name = "auhor_find_all", query = "FROM AuthorHibernate")
+@NamedQueries(value = {
+        @NamedQuery(name = "author_find_all", query = "FROM AuthorHibernate"),
+        @NamedQuery(name = "author_find_by_name", query = "FROM AuthorHibernate a WHERE a.firstName = :first_name AND a.lastName = :last_name")
+})
 @Table(name = "AUTHOR_HIBERNATE")
 @NoArgsConstructor
 @AllArgsConstructor

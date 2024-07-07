@@ -38,6 +38,16 @@ public class AuthorHibernateDaoImpl implements AuthorHibernateDao {
     }
 
     @Override
+    public AuthorHibernate getByFirstAndLastNameWithNamedQuery(String firstName, String lastName) {
+        EntityManager em = getEntityManager();
+        TypedQuery<AuthorHibernate> query = em.createNamedQuery("author_find_by_name", AuthorHibernate.class);
+        query.setParameter("first_name", firstName);
+        query.setParameter("last_name", lastName);
+
+        return query.getSingleResult();
+    }
+
+    @Override
     public AuthorHibernate getByFirstNameAndLastName(String firstName, String lastName) {
         TypedQuery<AuthorHibernate> query = getEntityManager()
                 .createQuery("SELECT a FROM AuthorHibernate a WHERE a.firstName = :first_name AND a.lastName = :last_name",
