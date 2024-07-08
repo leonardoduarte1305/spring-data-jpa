@@ -16,6 +16,8 @@ public interface AuthorHibernateDao {
 
     AuthorHibernate findAuthorByFirstAndLastNameWithCriteria(String firstName, String lastName);
 
+    AuthorHibernate findAuthorByFirstAndLastNameWithNativeQuery(String firstName, String lastName);
+
     AuthorHibernate getByFirstNameAndLastName(String firstName, String lastName);
 
     AuthorHibernate saveNewAuthorHibernate(AuthorHibernate author);

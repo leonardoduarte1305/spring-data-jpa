@@ -16,6 +16,8 @@ public interface BookHibernateDao {
 
     BookHibernate getBookByIsbnWithCriteria(String isbn);
 
+    BookHibernate getBookByIsbnWithNativeQuery(String isbn);
+
     BookHibernate getByTitleAndPublisher(String title, String publisher);
 
     BookHibernate saveNewBook(BookHibernate book);

@@ -3,6 +3,7 @@ package dev.leoduarte.spingdatajpa.dao.hibernate;
 import dev.leoduarte.spingdatajpa.domain.hibernate.BookHibernate;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Query;
 import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
@@ -50,6 +51,16 @@ public class BookHibernateDaoImpl implements BookHibernateDao {
             typedQuery.setParameter(isbnParam, isbn);
 
             return typedQuery.getSingleResult();
+        }
+    }
+
+    @Override
+    public BookHibernate getBookByIsbnWithNativeQuery(String isbn) {
+        try (EntityManager em = getEntityManager()) {
+            Query query = em.createNativeQuery("SELECT * FROM bookdb.book_hibernate b WHERE b.isbn = ?", BookHibernate.class);
+            query.setParameter(1, isbn);
+
+            return (BookHibernate) query.getSingleResult();
         }
     }
 

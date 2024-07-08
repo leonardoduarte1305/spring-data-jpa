@@ -3,6 +3,7 @@ package dev.leoduarte.spingdatajpa.dao.hibernate;
 import dev.leoduarte.spingdatajpa.domain.hibernate.AuthorHibernate;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Query;
 import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
@@ -72,6 +73,17 @@ public class AuthorHibernateDaoImpl implements AuthorHibernateDao {
             typedQuery.setParameter(lastNameParam, lastName);
 
             return typedQuery.getSingleResult();
+        }
+    }
+
+    @Override
+    public AuthorHibernate findAuthorByFirstAndLastNameWithNativeQuery(String firstName, String lastName) {
+        try (EntityManager em = getEntityManager()) {
+            Query query = em.createNativeQuery("SELECT * FROM bookdb.author_hibernate a WHERE a.first_name = ? and a.last_name = ?", AuthorHibernate.class);
+            query.setParameter(1, firstName);
+            query.setParameter(2, lastName);
+
+            return (AuthorHibernate) query.getSingleResult();
         }
     }
 
