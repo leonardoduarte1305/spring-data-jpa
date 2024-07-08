@@ -4,6 +4,11 @@ import dev.leoduarte.spingdatajpa.domain.hibernate.BookHibernate;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.TypedQuery;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.ParameterExpression;
+import jakarta.persistence.criteria.Predicate;
+import jakarta.persistence.criteria.Root;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -27,6 +32,25 @@ public class BookHibernateDaoImpl implements BookHibernateDao {
         query.setParameter("isbn", isbn);
 
         return query.getSingleResult();
+    }
+
+    @Override
+    public BookHibernate getBookByIsbnWithCriteria(String isbn) {
+        try (EntityManager em = getEntityManager()) {
+            CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
+            CriteriaQuery<BookHibernate> criteriaQuery = criteriaBuilder.createQuery(BookHibernate.class);
+
+            Root<BookHibernate> root = criteriaQuery.from(BookHibernate.class);
+            ParameterExpression<String> isbnParam = criteriaBuilder.parameter(String.class);
+
+            Predicate isbnPred = criteriaBuilder.equal(root.get("isbn"), isbnParam);
+            criteriaQuery.select(root).where(criteriaBuilder.and(isbnPred));
+
+            TypedQuery<BookHibernate> typedQuery = em.createQuery(criteriaQuery);
+            typedQuery.setParameter(isbnParam, isbn);
+
+            return typedQuery.getSingleResult();
+        }
     }
 
     @Override

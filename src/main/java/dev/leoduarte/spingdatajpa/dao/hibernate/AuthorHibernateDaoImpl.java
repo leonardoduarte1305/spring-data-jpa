@@ -4,6 +4,11 @@ import dev.leoduarte.spingdatajpa.domain.hibernate.AuthorHibernate;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.TypedQuery;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.ParameterExpression;
+import jakarta.persistence.criteria.Predicate;
+import jakarta.persistence.criteria.Root;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -45,6 +50,29 @@ public class AuthorHibernateDaoImpl implements AuthorHibernateDao {
         query.setParameter("last_name", lastName);
 
         return query.getSingleResult();
+    }
+
+    @Override
+    public AuthorHibernate findAuthorByFirstAndLastNameWithCriteria(String firstName, String lastName) {
+        try (EntityManager em = getEntityManager()) {
+            CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
+            CriteriaQuery<AuthorHibernate> criteriaQuery = criteriaBuilder.createQuery(AuthorHibernate.class);
+
+            Root<AuthorHibernate> root = criteriaQuery.from(AuthorHibernate.class);
+            ParameterExpression<String> firstNameParam = criteriaBuilder.parameter(String.class);
+            ParameterExpression<String> lastNameParam = criteriaBuilder.parameter(String.class);
+
+            Predicate firstNamePred = criteriaBuilder.equal(root.get("firstName"), firstNameParam);
+            Predicate lastNamePred = criteriaBuilder.equal(root.get("lastName"), lastNameParam);
+
+            criteriaQuery.select(root).where(criteriaBuilder.and(firstNamePred, lastNamePred));
+
+            TypedQuery<AuthorHibernate> typedQuery = em.createQuery(criteriaQuery);
+            typedQuery.setParameter(firstNameParam, firstName);
+            typedQuery.setParameter(lastNameParam, lastName);
+
+            return typedQuery.getSingleResult();
+        }
     }
 
     @Override
