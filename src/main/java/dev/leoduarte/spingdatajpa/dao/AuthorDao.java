@@ -2,15 +2,15 @@ package dev.leoduarte.spingdatajpa.dao;
 
 import dev.leoduarte.spingdatajpa.domain.Author;
 
-public interface AuthorDao {
+public interface AuthorDao<T> {
 
-    Author getById(long id);
+    T getById(long id);
 
-    Author getByFirstNameAndLastName(String firstName, String lastName);
+    T getByFirstNameAndLastName(String firstName, String lastName);
 
-    Author saveNewAuthor(Author Author);
+    T saveNewAuthor(T author);
 
-    Author updateAuthor(Long id, Author Author);
+    T updateAuthor(Long id, T author);
 
     void deleteById(Long id);
 }

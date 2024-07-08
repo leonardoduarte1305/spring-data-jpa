@@ -25,7 +25,7 @@ import org.springframework.test.context.ActiveProfiles;
 class BookDaoImplIntegrationTest {
 
     @Autowired
-    BookDao bookDao;
+    BookDao<Book> bookDao;
 
     @Autowired // Just to get the id, because it is dinamically generated
     BookRepository bookRepository;

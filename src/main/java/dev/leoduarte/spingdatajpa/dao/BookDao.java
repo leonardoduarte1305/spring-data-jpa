@@ -1,16 +1,14 @@
 package dev.leoduarte.spingdatajpa.dao;
 
-import dev.leoduarte.spingdatajpa.domain.Book;
+public interface BookDao<T> {
 
-public interface BookDao {
+    T getById(long id);
 
-    Book getById(long id);
+    T getByTitleAndPublisher(String title, String publisher);
 
-    Book getByTitleAndPublisher(String title, String publisher);
+    T saveNewBook(T book);
 
-    Book saveNewBook(Book book);
-
-    Book updateBook(Long id, Book book);
+    T updateBook(Long id, T book);
 
     void deleteById(Long id);
 }

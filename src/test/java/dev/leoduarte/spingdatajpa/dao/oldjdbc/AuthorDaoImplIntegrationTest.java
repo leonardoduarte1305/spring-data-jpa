@@ -23,7 +23,7 @@ import org.springframework.test.context.ActiveProfiles;
 class AuthorDaoImplIntegrationTest {
 
     @Autowired
-    AuthorDao authorDao;
+    AuthorDao<Author> authorDao;
 
     @Autowired // Just to get the id, because it is dinamically generated
     AuthorRepository authorRepository;

@@ -2,7 +2,6 @@ package dev.leoduarte.spingdatajpa.dao.springjdbctemplate;
 
 import dev.leoduarte.spingdatajpa.dao.AuthorDao;
 import dev.leoduarte.spingdatajpa.domain.Author;
-import dev.leoduarte.spingdatajpa.repository.AuthorRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
@@ -29,7 +28,7 @@ class AuthorJDBCDaoImplIntegrationTest {
 
     @Autowired
     @Qualifier("authorJDBCDaoImpl")
-    AuthorDao authorDao;
+    AuthorDao<Author> authorDao;
 
     @Test
     @Commit

@@ -2,9 +2,9 @@ package dev.leoduarte.spingdatajpa.dao.oldjdbc;
 
 import dev.leoduarte.spingdatajpa.dao.AuthorDao;
 import dev.leoduarte.spingdatajpa.dao.BookDao;
+import dev.leoduarte.spingdatajpa.domain.Author;
 import dev.leoduarte.spingdatajpa.domain.Book;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
@@ -20,11 +20,11 @@ import static java.sql.Types.BIGINT;
 @Component("bookDaoImpl")
 @Primary
 @RequiredArgsConstructor
-public class BookDaoImpl implements BookDao {
+public class BookDaoImpl implements BookDao<Book> {
 
     private final DataSource source;
 
-    private final AuthorDao authorDao;
+    private final AuthorDao<Author> authorDao;
 
     @Override
     public Book getById(long id) {

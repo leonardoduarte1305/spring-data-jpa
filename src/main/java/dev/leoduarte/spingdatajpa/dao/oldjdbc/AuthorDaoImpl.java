@@ -16,7 +16,7 @@ import java.sql.Statement;
 @Component("authorDaoImpl")
 @Primary
 @RequiredArgsConstructor
-public class AuthorDaoImpl implements AuthorDao {
+public class AuthorDaoImpl implements AuthorDao<Author> {
 
     private final DataSource source;
 

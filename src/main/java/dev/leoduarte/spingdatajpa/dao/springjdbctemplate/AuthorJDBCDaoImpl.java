@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 @Component(value = "authorJDBCDaoImpl")
 @RequiredArgsConstructor
-public class AuthorJDBCDaoImpl implements AuthorDao {
+public class AuthorJDBCDaoImpl implements AuthorDao<Author> {
 
     private final JdbcTemplate jdbcTemplate;
     private final AuthorJDBCMapper authorRowMapper;
