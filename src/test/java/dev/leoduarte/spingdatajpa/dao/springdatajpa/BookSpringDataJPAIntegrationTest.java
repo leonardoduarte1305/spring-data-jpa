@@ -19,6 +19,9 @@ import org.springframework.orm.jpa.JpaObjectRetrievalFailureException;
 import org.springframework.test.annotation.Commit;
 import org.springframework.test.context.ActiveProfiles;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -45,7 +48,7 @@ public class BookSpringDataJPAIntegrationTest {
         BookSpringJPA bookToSave = getNewBook();
         BookSpringJPA book = bookDao.saveNewBook(bookToSave);
 
-        Assertions.assertThat(book).isNotNull();
+        assertThat(book).isNotNull();
     }
 
     @Test
@@ -53,7 +56,7 @@ public class BookSpringDataJPAIntegrationTest {
     void getById() {
         Long bookId = bookRepository.findAll().stream().findFirst().get().getId();
         BookSpringJPA book = bookDao.getById(bookId);
-        Assertions.assertThat(book).isNotNull();
+        assertThat(book).isNotNull();
     }
 
     @Test
@@ -63,10 +66,10 @@ public class BookSpringDataJPAIntegrationTest {
         String publisher = "Unique Plublisher";
         BookSpringJPA savedNewBook = bookDao.saveNewBook(new BookSpringJPA(null, title, "isbn", publisher, 123L));
 
-        Assertions.assertThat(savedNewBook.getId()).isNotNull();
+        assertThat(savedNewBook.getId()).isNotNull();
 
         BookSpringJPA book = bookDao.getByTitleAndPublisher(title, publisher);
-        Assertions.assertThat(book).isNotNull();
+        assertThat(book).isNotNull();
     }
 
     @Test
@@ -75,13 +78,13 @@ public class BookSpringDataJPAIntegrationTest {
         BookSpringJPA bookToSave = getNewBook();
         BookSpringJPA bookAlreadySaved = bookDao.saveNewBook(bookToSave);
 
-        Assertions.assertThat(bookAlreadySaved).isNotNull();
+        assertThat(bookAlreadySaved).isNotNull();
 
         String newPublisher = "Completely New Publisher";
         bookAlreadySaved.setPublisher(newPublisher);
         BookSpringJPA bookUpdated = bookDao.updateBook(bookAlreadySaved.getId(), bookAlreadySaved);
 
-        Assertions.assertThat(bookUpdated.getPublisher()).isEqualTo(newPublisher);
+        assertThat(bookUpdated.getPublisher()).isEqualTo(newPublisher);
     }
 
     @Test
@@ -90,7 +93,7 @@ public class BookSpringDataJPAIntegrationTest {
         BookSpringJPA bookToSave = getNewBook();
         BookSpringJPA book = bookDao.saveNewBook(bookToSave);
 
-        Assertions.assertThat(book).isNotNull();
+        assertThat(book).isNotNull();
 
         bookDao.deleteById(book.getId());
         assertThrows(JpaObjectRetrievalFailureException.class, () -> bookDao.getById(book.getId()));
@@ -112,6 +115,17 @@ public class BookSpringDataJPAIntegrationTest {
     @Test
     void testNoExcepton() {
         assertNull(bookRepository.getByTitle("foo"));
+    }
+
+    @Test
+    void testStream() {
+        AtomicInteger count = new AtomicInteger();
+
+        bookRepository.findAllByTitleNotNull().forEach(bookSpringJPA -> {
+            count.incrementAndGet();
+        });
+
+        assertThat(count.get()).isGreaterThan(5);
     }
 
     private BookSpringJPA getNewBook() {

@@ -6,6 +6,7 @@ import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
+import java.util.stream.Stream;
 
 @Repository
 public interface BookSpringJPARepository extends JpaRepository<BookSpringJPA, Long> {
@@ -17,4 +18,5 @@ public interface BookSpringJPARepository extends JpaRepository<BookSpringJPA, Lo
     @Nullable
     BookSpringJPA getByTitle(@Nullable String title);
 
+    Stream<BookSpringJPA> findAllByTitleNotNull();
 }
