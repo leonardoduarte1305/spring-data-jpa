@@ -14,10 +14,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.orm.jpa.JpaObjectRetrievalFailureException;
 import org.springframework.test.annotation.Commit;
 import org.springframework.test.context.ActiveProfiles;
 
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @DataJpaTest
@@ -93,6 +95,23 @@ public class BookSpringDataJPAIntegrationTest {
         bookDao.deleteById(book.getId());
         assertThrows(JpaObjectRetrievalFailureException.class, () -> bookDao.getById(book.getId()));
 
+    }
+
+    @Test
+    void testEmptyResultexception() {
+        assertThrows(EmptyResultDataAccessException.class, () -> {
+            bookRepository.readByTitle("bla bla bla");
+        });
+    }
+
+    @Test
+    void testNullParam() {
+        assertNull(bookRepository.getByTitle(null));
+    }
+
+    @Test
+    void testNoExcepton() {
+        assertNull(bookRepository.getByTitle("foo"));
     }
 
     private BookSpringJPA getNewBook() {
