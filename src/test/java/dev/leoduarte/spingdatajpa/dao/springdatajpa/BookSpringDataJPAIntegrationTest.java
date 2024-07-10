@@ -5,7 +5,6 @@ import dev.leoduarte.spingdatajpa.domain.springdatajpa.AuthorSpringJPA;
 import dev.leoduarte.spingdatajpa.domain.springdatajpa.BookSpringJPA;
 import dev.leoduarte.spingdatajpa.repository.AuthorSpringJPARepository;
 import dev.leoduarte.spingdatajpa.repository.BookSpringJPARepository;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -19,9 +18,12 @@ import org.springframework.orm.jpa.JpaObjectRetrievalFailureException;
 import org.springframework.test.annotation.Commit;
 import org.springframework.test.context.ActiveProfiles;
 
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -126,6 +128,17 @@ public class BookSpringDataJPAIntegrationTest {
         });
 
         assertThat(count.get()).isGreaterThan(5);
+    }
+
+    @Test
+    void testBookFuture() throws ExecutionException, InterruptedException {
+        BookSpringJPA bookToSave = new BookSpringJPA(null, "Abracadabra", "isbn único", "A Fancy publisher", 10L);
+        BookSpringJPA savedBook = bookDao.saveNewBook(bookToSave);
+
+        Future<BookSpringJPA> futureBook = bookRepository.queryByTitle(savedBook.getTitle());
+
+        BookSpringJPA book = futureBook.get();
+        assertNotNull(book);
     }
 
     private BookSpringJPA getNewBook() {
