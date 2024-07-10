@@ -15,6 +15,9 @@ import java.util.stream.Stream;
 @Repository
 public interface BookSpringJPARepository extends JpaRepository<BookSpringJPA, Long> {
 
+    @Query(value = "SELECT * FROM book_spring_jpa  WHERE title = :nativeTitle", nativeQuery = true)
+    BookSpringJPA findByTitleWithNativeQuery(@Param("nativeTitle") String title);
+
     @Query("SELECT b FROM BookSpringJPA b WHERE b.title = :completetTitle")
     BookSpringJPA findByTitleWithQueryNamed(@Param("completetTitle") String title);
 
