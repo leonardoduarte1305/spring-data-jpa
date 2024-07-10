@@ -3,6 +3,7 @@ package dev.leoduarte.spingdatajpa.repository;
 import dev.leoduarte.spingdatajpa.domain.springdatajpa.BookSpringJPA;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.lang.Nullable;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Repository;
@@ -13,6 +14,9 @@ import java.util.stream.Stream;
 
 @Repository
 public interface BookSpringJPARepository extends JpaRepository<BookSpringJPA, Long> {
+
+    @Query("SELECT b FROM BookSpringJPA b WHERE b.title = :completetTitle")
+    BookSpringJPA findByTitleWithQueryNamed(@Param("completetTitle") String title);
 
     @Query("SELECT b FROM BookSpringJPA b WHERE b.title = ?1")
     BookSpringJPA findByTitleWithQuery(String title);
