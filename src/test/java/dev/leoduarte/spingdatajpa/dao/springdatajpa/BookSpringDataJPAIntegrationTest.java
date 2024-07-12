@@ -168,6 +168,15 @@ public class BookSpringDataJPAIntegrationTest {
         assertNotNull(foundBook.getId());
     }
 
+    @Test
+    void testBookBiTitleWithNamedQuery() {
+        BookSpringJPA bookToSave = new BookSpringJPA(null, "Abracadabra 4", "isbn único", "A Fancy publisher", 10L);
+        BookSpringJPA savedBook = bookDao.saveNewBook(bookToSave);
+
+        BookSpringJPA foundBook = bookRepository.namedQueryToUse(savedBook.getTitle());
+        assertNotNull(foundBook.getId());
+    }
+
     private BookSpringJPA getNewBook() {
         String title = "Title";
         String publisher = "Plublisher";
