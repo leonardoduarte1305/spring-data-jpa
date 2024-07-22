@@ -29,7 +29,7 @@ import org.springframework.context.annotation.Profile;
                 column = @Column(name = "billing_to_state", length = 30)), // This match the database property
         @AttributeOverride(
                 name = "billingToAddress.zipCode", // This match the Java property
-                column = @Column(name = "billing_to_ZipCode", length = 30)) // This match the database property
+                column = @Column(name = "billing_to_zip_code", length = 30)) // This match the database property
 })
 public class OrderHeader extends BaseEntity {
 

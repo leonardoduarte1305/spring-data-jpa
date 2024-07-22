@@ -1,0 +1,41 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1719488983105-1
+      author: spring-data-jpa-app
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                  name: id
+                  type: BIGINT
+              - column:
+                  name: billing_to_address
+                  type: VARCHAR(30)
+              - column:
+                  name: billing_to_city
+                  type: VARCHAR(30)
+              - column:
+                  name: billing_to_state
+                  type: VARCHAR(30)
+              - column:
+                  name: billing_to_zip_code
+                  type: VARCHAR(30)
+              - column:
+                  name: shipping_address
+                  type: VARCHAR(30)
+              - column:
+                  name: shipping_city
+                  type: VARCHAR(30)
+              - column:
+                  name: shipping_state
+                  type: VARCHAR(30)
+              - column:
+                  name: shipping_zip_code
+                  type: VARCHAR(30)
+              - column:
+                  name: customer
+                  type: VARCHAR(255)
+            tableName: order_header

@@ -62,4 +62,11 @@ public class BookHibernate {
         this.publisher = publisher;
         this.author = author;
     }
+
+    public BookHibernate(String title, String isbn, String publisher, AuthorHibernate author) {
+        this.title = title;
+        this.isbn = isbn;
+        this.publisher = publisher;
+        this.author = author;
+    }
 }

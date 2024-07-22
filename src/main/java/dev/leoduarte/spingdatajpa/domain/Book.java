@@ -33,4 +33,10 @@ public class Book {
     @Transient
     private Author author;
 
+    public Book(String title, String isbn, String publisher, Author author) {
+        this.title = title;
+        this.isbn = isbn;
+        this.publisher = publisher;
+        this.author = author;
+    }
 }
