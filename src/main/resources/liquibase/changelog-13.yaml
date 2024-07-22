@@ -1,0 +1,21 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1719488983104-1
+      author: liquibase-docs
+      changes:
+        - addColumn:
+            tableName: book_hibernate
+            columns:
+              - column:
+                  name: last_modified_date
+                  type: timestamp
+  - changeSet:
+      id: 1719488983104-2
+      author: liquibase-docs
+      changes:
+        - addColumn:
+            tableName: author_hibernate
+            columns:
+              - column:
+                  name: last_modified_date
+                  type: timestamp

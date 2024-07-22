@@ -1,5 +1,6 @@
 package dev.leoduarte.spingdatajpa.domain.hibernate;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -14,6 +15,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import java.sql.Timestamp;
 
 @Getter
 @Setter
@@ -35,6 +40,14 @@ public class BookHibernate {
     @EqualsAndHashCode.Include
     private Long id;
 
+    @CreationTimestamp
+    @Column(name = "CREATED_DATE", updatable = false)
+    private Timestamp createdDate;
+
+    @UpdateTimestamp
+    @Column(name = "LAST_MODIFIED_DATE", updatable = false)
+    private Timestamp modifiedDate;
+
     private String title;
     private String isbn;
     private String publisher;
@@ -42,4 +55,11 @@ public class BookHibernate {
     @Transient
     private AuthorHibernate author;
 
+    public BookHibernate(Long id, String title, String isbn, String publisher, AuthorHibernate author) {
+        this.id = id;
+        this.title = title;
+        this.isbn = isbn;
+        this.publisher = publisher;
+        this.author = author;
+    }
 }
