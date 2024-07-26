@@ -2,14 +2,22 @@ package dev.leoduarte.spingdatajpa.domain.mappedsuperclass;
 
 import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.AttributeOverrides;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
-import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.context.annotation.Profile;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -17,6 +25,8 @@ import org.springframework.context.annotation.Profile;
 @Table(name = "ORDER_HEADER")
 @EqualsAndHashCode(callSuper = true)
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
 @AttributeOverrides({
         @AttributeOverride(
                 name = "billingToAddress.address", // This match the Java property
@@ -34,10 +44,13 @@ import org.springframework.context.annotation.Profile;
 public class OrderHeader extends BaseEntity {
 
     private String customer;
-
-    @Embedded
     private Address shippingToAddress;
-
-    @Embedded
     private Billing billingToAddress;
+
+    @Enumerated(EnumType.ORDINAL)
+    @Column(name = "ORDER_STATUS")
+    private OrderStatus orderStatus;
+
+    @OneToMany(mappedBy = "orderHeader", cascade = CascadeType.PERSIST)
+    private Set<OrderLine> orderLines = new HashSet<>();
 }

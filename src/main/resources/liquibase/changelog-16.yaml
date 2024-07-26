@@ -1,0 +1,34 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1719488983107-1
+      author: spring-data-jpa-app
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                  name: id
+                  type: BIGINT
+              - column:
+                  name: quantity_order
+                  type: INTEGER
+              - column:
+                  name: created_date
+                  type: TIMESTAMP
+              - column:
+                  name: last_modified_date
+                  type: TIMESTAMP
+              - column:
+                  name: order_header_id
+                  type: BIGINT
+              - addForeignKeyConstraint:
+                  referencedColumnNames: ID
+                  referencedTableName: order_header
+                  baseTableSchemaName: public
+                  baseTableName: order_line
+                  baseColumnNames: ORDER_HEADER_ID
+                  constraintName: FK_ORDER_HEADER_ID
+            tableName: order_line
+

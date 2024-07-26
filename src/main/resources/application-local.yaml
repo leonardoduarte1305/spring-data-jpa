@@ -12,6 +12,7 @@ spring:
       idle-timeout: 60000
       maximum-pool-size: 20
       connection-timeout: 30000
+      schema: public
   sql:
     init:
       mode: always

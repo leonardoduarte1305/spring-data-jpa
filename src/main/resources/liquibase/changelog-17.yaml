@@ -1,0 +1,17 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1719488983108-1
+      author: spring-data-jpa-app
+      changes:
+        - addColumn:
+            columns:
+              - column:
+                  name: ORDER_STATUS
+                  type: TINYINT
+              - column:
+                  name: created_date
+                  type: TIMESTAMP
+              - column:
+                  name: last_modified_date
+                  type: TIMESTAMP
+            tableName: order_header
