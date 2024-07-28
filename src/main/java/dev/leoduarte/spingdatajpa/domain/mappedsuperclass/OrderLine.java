@@ -2,6 +2,8 @@ package dev.leoduarte.spingdatajpa.domain.mappedsuperclass;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -29,4 +31,6 @@ public class OrderLine extends BaseEntity {
     @ManyToOne
     private OrderHeader orderHeader;
 
+    @ManyToOne(optional = false, targetEntity = Product.class)
+    private Product product;
 }

@@ -1,0 +1,52 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1719488983110-1
+      author: spring-data-jpa-app
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                  name: id
+                  type: BIGINT
+              - column:
+                  name: description
+                  type: VARCHAR(255)
+              - column:
+                  name: created_date
+                  type: TIMESTAMP
+              - column:
+                  name: last_modified_date
+                  type: TIMESTAMP
+            tableName: category
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                  name: product_id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                  name: category_id
+                  type: BIGINT
+              - addForeignKeyConstraint:
+                  referencedColumnNames: id
+                  referencedTableName: product
+                  baseTableSchemaName: public
+                  baseTableName: category
+                  baseColumnNames: id
+                  constraintName: FK_PRODUCT_CATEGORY
+              - addForeignKeyConstraint:
+                  referencedColumnNames: id
+                  referencedTableName: category
+                  baseTableSchemaName: public
+                  baseTableName: product
+                  baseColumnNames: id
+                  constraintName: FK_CATEGORY_PRODUCT
+            tableName: product_category

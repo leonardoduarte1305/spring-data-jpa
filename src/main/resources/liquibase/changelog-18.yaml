@@ -1,0 +1,18 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1719488983109-1
+      author: spring-data-jpa-app
+      changes:
+        - addColumn:
+            columns:
+              - column:
+                  name: PRODUCT_ID_ID
+                  type: BIGINT
+              - addForeignKeyConstraint:
+                  referencedColumnNames: ID
+                  referencedTableName: order_line
+                  baseTableSchemaName: public
+                  baseTableName: product
+                  baseColumnNames: ID
+                  constraintName: FK_ORDER_LINE_PRODUCT
+            tableName: order_line
