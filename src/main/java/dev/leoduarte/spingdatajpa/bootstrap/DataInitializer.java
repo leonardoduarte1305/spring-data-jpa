@@ -11,6 +11,10 @@ import dev.leoduarte.spingdatajpa.domain.embeddedkey.BookEmbeddedKey;
 import dev.leoduarte.spingdatajpa.domain.embeddedkey.CompositeEmbeddedKey;
 import dev.leoduarte.spingdatajpa.domain.hibernate.AuthorHibernate;
 import dev.leoduarte.spingdatajpa.domain.hibernate.BookHibernate;
+import dev.leoduarte.spingdatajpa.domain.problementities.AuthorNPlusOne;
+import dev.leoduarte.spingdatajpa.domain.problementities.AuthorNPlusOneRepository;
+import dev.leoduarte.spingdatajpa.domain.problementities.BookNPlusOne;
+import dev.leoduarte.spingdatajpa.domain.problementities.BookNPlusOneRepository;
 import dev.leoduarte.spingdatajpa.repository.AuthorHibernateRepository;
 import dev.leoduarte.spingdatajpa.repository.AuthorRepository;
 import dev.leoduarte.spingdatajpa.repository.BookCompositeKeyRepository;
@@ -40,6 +44,8 @@ public class DataInitializer implements CommandLineRunner {
     private final BookCompositeKeyRepository compositeKeyRepository;
     private final BookEmbeddedKeyRepository embeddedKeyRepository;
     private final BookHibernateRepository bookHibernateRepository;
+    private final BookNPlusOneRepository bookNPlusOneRepository;
+    private final AuthorNPlusOneRepository authorNPlusOneRepository;
 
     private final AuthorRepository authorRepository;
     private final AuthorHibernateRepository authorHibernateRepository;
@@ -53,6 +59,8 @@ public class DataInitializer implements CommandLineRunner {
         compositeKeyRepository.deleteAll();
         embeddedKeyRepository.deleteAll();
         bookHibernateRepository.deleteAll();
+        bookNPlusOneRepository.deleteAll();
+        authorNPlusOneRepository.deleteAll();
 
         authorRepository.deleteAll();
         authorHibernateRepository.deleteAll();
@@ -127,6 +135,28 @@ public class DataInitializer implements CommandLineRunner {
         BookHibernate bookHibernate8 = new BookHibernate("Title 8", "ISBN 18", "Plublisher 28", authorHibernate8);
         BookHibernate bookHibernate9 = new BookHibernate("Title 9", "ISBN 19", "Plublisher 29", authorHibernate9);
         bookHibernateRepository.saveAll(Arrays.asList(bookHibernate1, bookHibernate2, bookHibernate3, bookHibernate4, bookHibernate5, bookHibernate6, bookHibernate7, bookHibernate8, bookHibernate9));
+
+
+        AuthorNPlusOne authorNPlusOne1 = new AuthorNPlusOne("Author1");
+        BookNPlusOne bookNPlusOne1 = new BookNPlusOne("book1", authorNPlusOne1);
+        BookNPlusOne bookNPlusOne2 = new BookNPlusOne("book12", authorNPlusOne1);
+        authorNPlusOne1.setAllBooks(List.of(bookNPlusOne1, bookNPlusOne2));
+
+
+        AuthorNPlusOne authorNPlusOne2 = new AuthorNPlusOne("Author2");
+        BookNPlusOne bookNPlusOne3 = new BookNPlusOne("book13", authorNPlusOne2);
+        BookNPlusOne bookNPlusOne4 = new BookNPlusOne("book14", authorNPlusOne2);
+        BookNPlusOne bookNPlusOne5 = new BookNPlusOne("book15", authorNPlusOne2);
+        authorNPlusOne2.setAllBooks(List.of(bookNPlusOne3, bookNPlusOne4, bookNPlusOne5));
+
+        AuthorNPlusOne authorNPlusOne3 = new AuthorNPlusOne("Author3");
+        BookNPlusOne bookNPlusOne6 = new BookNPlusOne("book23", authorNPlusOne3);
+        BookNPlusOne bookNPlusOne7 = new BookNPlusOne("book24", authorNPlusOne3);
+        BookNPlusOne bookNPlusOne8 = new BookNPlusOne("book25", authorNPlusOne3);
+        authorNPlusOne3.setAllBooks(List.of(bookNPlusOne6, bookNPlusOne7, bookNPlusOne8));
+
+        authorNPlusOneRepository.saveAll(List.of(authorNPlusOne1, authorNPlusOne2, authorNPlusOne3));
+
     }
 
 }

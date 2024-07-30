@@ -1,0 +1,53 @@
+package dev.leoduarte.spingdatajpa.domain.problementities;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.hibernate.annotations.BatchSize;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+import org.springframework.context.annotation.Profile;
+
+import java.util.List;
+
+@Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@Profile("default")
+public class AuthorNPlusOne {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String firstName;
+
+    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<BookNPlusOne> books;
+
+
+    @OneToMany(mappedBy = "batchFetchedAuthor", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @BatchSize(size = 10) // STRATEGY 4 - BATCH
+    private List<BookNPlusOne> batchFetchedBooks;
+
+    @OneToMany(mappedBy = "subSelectedAuthor", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @Fetch(FetchMode.SUBSELECT) // STRATEGY 5 - SUBSELECT
+    private List<BookNPlusOne> subselectBooks;
+
+    public AuthorNPlusOne(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public void setAllBooks(List<BookNPlusOne> receivedBooks) {
+        this.books = receivedBooks;
+        this.batchFetchedBooks = receivedBooks;
+        this.subselectBooks = receivedBooks;
+    }
+}
