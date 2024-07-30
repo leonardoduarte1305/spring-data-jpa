@@ -14,12 +14,13 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Import;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.test.annotation.Commit;
 import org.springframework.test.context.ActiveProfiles;
 
-import java.sql.Timestamp;
-import java.time.Instant;
 import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
 @ComponentScan(basePackages = {"dev.leoduarte.springdatajpa.bootstrap"})
@@ -45,7 +46,7 @@ class BookHibernateDaoImplTest {
         BookHibernate bookToSave = getNewBook();
         BookHibernate book = bookDao.saveNewBook(bookToSave);
 
-        Assertions.assertThat(book).isNotNull();
+        assertThat(book).isNotNull();
     }
 
     @Test
@@ -53,7 +54,7 @@ class BookHibernateDaoImplTest {
     void getById() {
         Long bookId = bookRepository.findAll().stream().findFirst().get().getId();
         BookHibernate book = bookDao.getById(bookId);
-        Assertions.assertThat(book).isNotNull();
+        assertThat(book).isNotNull();
     }
 
     @Test
@@ -62,7 +63,7 @@ class BookHibernateDaoImplTest {
         String title = "Title";
         String publisher = "Plublisher";
         BookHibernate book = bookDao.getByTitleAndPublisher(title, publisher);
-        Assertions.assertThat(book).isNotNull();
+        assertThat(book).isNotNull();
     }
 
     @Test
@@ -71,13 +72,13 @@ class BookHibernateDaoImplTest {
         BookHibernate bookToSave = getNewBook();
         BookHibernate bookAlreadySaved = bookDao.saveNewBook(bookToSave);
 
-        Assertions.assertThat(bookAlreadySaved).isNotNull();
+        assertThat(bookAlreadySaved).isNotNull();
 
         String newPublisher = "Completely New Publisher";
         bookAlreadySaved.setPublisher(newPublisher);
         BookHibernate bookUpdated = bookDao.updateBook(bookAlreadySaved.getId(), bookAlreadySaved);
 
-        Assertions.assertThat(bookUpdated.getPublisher()).isEqualTo(newPublisher);
+        assertThat(bookUpdated.getPublisher()).isEqualTo(newPublisher);
     }
 
     @Test
@@ -86,12 +87,12 @@ class BookHibernateDaoImplTest {
         BookHibernate bookToSave = getNewBook();
         BookHibernate book = bookDao.saveNewBook(bookToSave);
 
-        Assertions.assertThat(book).isNotNull();
+        assertThat(book).isNotNull();
 
         bookDao.deleteById(book.getId());
         BookHibernate removedEntity = bookDao.getById(book.getId());
 
-        Assertions.assertThat(removedEntity).isNull();
+        assertThat(removedEntity).isNull();
     }
 
     @Test
@@ -100,8 +101,8 @@ class BookHibernateDaoImplTest {
         String isbn = "ISBN 15";
         BookHibernate book = bookDao.findByISBN(isbn);
 
-        Assertions.assertThat(book).isNotNull();
-        Assertions.assertThat(isbn).isEqualTo(book.getIsbn());
+        assertThat(book).isNotNull();
+        assertThat(isbn).isEqualTo(book.getIsbn());
     }
 
     @Test
@@ -109,8 +110,8 @@ class BookHibernateDaoImplTest {
     void listAllAuthors() {
         List<BookHibernate> found = bookDao.findAll();
 
-        Assertions.assertThat(found).isNotNull();
-        Assertions.assertThat(found).hasSizeGreaterThan(1);
+        assertThat(found).isNotNull();
+        assertThat(found).hasSizeGreaterThan(1);
     }
 
     @Test
@@ -119,8 +120,8 @@ class BookHibernateDaoImplTest {
         String isbn = "ISBN 15";
         BookHibernate book = bookDao.getByIsbnWithNamedQuery(isbn);
 
-        Assertions.assertThat(book).isNotNull();
-        Assertions.assertThat(isbn).isEqualTo(book.getIsbn());
+        assertThat(book).isNotNull();
+        assertThat(isbn).isEqualTo(book.getIsbn());
     }
 
     @Test
@@ -129,8 +130,8 @@ class BookHibernateDaoImplTest {
         String isbn = "ISBN 15";
         BookHibernate book = bookDao.getBookByIsbnWithCriteria(isbn);
 
-        Assertions.assertThat(book).isNotNull();
-        Assertions.assertThat(isbn).isEqualTo(book.getIsbn());
+        assertThat(book).isNotNull();
+        assertThat(isbn).isEqualTo(book.getIsbn());
     }
 
     @Test
@@ -139,8 +140,17 @@ class BookHibernateDaoImplTest {
         String isbn = "ISBN 15";
         BookHibernate book = bookDao.getBookByIsbnWithNativeQuery(isbn);
 
-        Assertions.assertThat(book).isNotNull();
-        Assertions.assertThat(isbn).isEqualTo(book.getIsbn());
+        assertThat(book).isNotNull();
+        assertThat(isbn).isEqualTo(book.getIsbn());
+    }
+
+    @Test
+    @Order(11)
+    void listAllBooksPaginated() {
+        List<BookHibernate> found = bookDao.findAllBooks(PageRequest.of(0, 5));
+
+        assertThat(found).isNotNull();
+        assertThat(found.size()).isEqualTo(5);
     }
 
     private BookHibernate getNewBook() {

@@ -11,6 +11,7 @@ import jakarta.persistence.criteria.ParameterExpression;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -118,6 +119,18 @@ public class BookHibernateDaoImpl implements BookHibernateDao {
     public List<BookHibernate> findAll() {
         try (EntityManager em = getEntityManager()) {
             TypedQuery<BookHibernate> query = em.createNamedQuery("book_find_all", BookHibernate.class);
+            return query.getResultList();
+        }
+    }
+
+    @Override
+    public List<BookHibernate> findAllBooks(Pageable pageable) {
+
+        try (EntityManager em = getEntityManager()) {
+            TypedQuery<BookHibernate> query = getEntityManager().createQuery("SELECT b FROM BookHibernate b", BookHibernate.class);
+            query.setFirstResult(Math.toIntExact(pageable.getOffset()));
+            query.setMaxResults(pageable.getPageSize());
+
             return query.getResultList();
         }
     }
