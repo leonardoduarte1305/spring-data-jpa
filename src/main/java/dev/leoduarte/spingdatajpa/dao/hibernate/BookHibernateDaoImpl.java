@@ -3,6 +3,7 @@ package dev.leoduarte.spingdatajpa.dao.hibernate;
 import dev.leoduarte.spingdatajpa.domain.hibernate.BookHibernate;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.FlushModeType;
 import jakarta.persistence.Query;
 import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.CriteriaBuilder;
@@ -103,6 +104,40 @@ public class BookHibernateDaoImpl implements BookHibernateDao {
         BookHibernate bookHibernate = em.find(BookHibernate.class, id);
         em.remove(bookHibernate);
         em.flush();
+        em.getTransaction().commit();
+    }
+
+    @Override
+    public void deleteByIdWithFlushModeCommit(Long id) {
+        EntityManager em = getEntityManager();
+        em.setFlushMode(FlushModeType.COMMIT);
+        em.getTransaction().begin();
+
+        BookHibernate bookHibernate = em.find(BookHibernate.class, id);
+        em.remove(bookHibernate);
+
+        assert (bookHibernate != null);
+        em.getTransaction().commit();
+
+        BookHibernate bookHibernateAfterCommit = em.find(BookHibernate.class, id);
+        assert (bookHibernateAfterCommit == null);
+    }
+
+    @Override
+    public void deleteByIdWithFlushModeAuto(Long id) {
+        EntityManager em = getEntityManager();
+        em.setFlushMode(FlushModeType.AUTO);
+        em.getTransaction().begin();
+
+        BookHibernate bookHibernate = em.find(BookHibernate.class, id);
+        em.remove(bookHibernate);
+        assert (bookHibernate != null); // Essa assertiva é válida porque bookHibernate não é null aqui,
+                                        // a entidade foi encontrada e removida do contexto de persistência.
+
+        BookHibernate bookHibernateAfterCommit = em.find(BookHibernate.class, id);
+        assert (bookHibernate != null); // a variável ainda contém a referência à entidade removida do contexto de persistência.
+        assert (bookHibernateAfterCommit == null);
+
         em.getTransaction().commit();
     }
 

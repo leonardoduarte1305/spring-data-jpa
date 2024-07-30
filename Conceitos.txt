@@ -1,0 +1,19 @@
+Flush:
+    JBoss
+        https://docs.jboss.org/hibernate/orm/3.5/api/org/hibernate/FlushMode.html
+
+    Baeldung
+        https://www.baeldung.com/spring-jpa-flush
+
+São 4 tipos:
+    - FlushMode.ALWAYS: Deve ser usado com cautela, pois pode causar muitas operações de banco de dados,
+        impactando negativamente a performance.
+    - FlushMode.AUTO: É a configuração padrão e geralmente funciona bem para a maioria das aplicações,
+        pois permite que o Hibernate gerencie automaticamente as operações de flush.
+    - FlushMode.COMMIT: É útil em cenários onde você quer minimizar o número de operações de flush,
+        realizando-as apenas no commit da transação.
+    - FlushMode.MANUAL: Dá ao desenvolvedor o controle total sobre o flush,
+        mas requer atenção para garantir que o flush seja chamado nos momentos apropriados para evitar
+        inconsistências nos dados.
+
+

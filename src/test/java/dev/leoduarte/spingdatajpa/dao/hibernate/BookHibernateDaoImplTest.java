@@ -4,7 +4,9 @@ import dev.leoduarte.spingdatajpa.domain.hibernate.AuthorHibernate;
 import dev.leoduarte.spingdatajpa.domain.hibernate.BookHibernate;
 import dev.leoduarte.spingdatajpa.repository.AuthorHibernateRepository;
 import dev.leoduarte.spingdatajpa.repository.BookHibernateRepository;
-import org.assertj.core.api.Assertions;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.FlushModeType;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -39,6 +41,9 @@ class BookHibernateDaoImplTest {
     @Autowired
     AuthorHibernateRepository authorRepository;
 
+    @Autowired
+    EntityManager entityManager;
+
     @Test
     @Order(1)
     @Commit
@@ -60,8 +65,10 @@ class BookHibernateDaoImplTest {
     @Test
     @Order(3)
     void getBookByTitleAndPublisher() {
-        String title = "Title";
+        String title = RandomStringUtils.random(20);
         String publisher = "Plublisher";
+        bookDao.saveNewBook(new BookHibernate(title, "",publisher,null));
+
         BookHibernate book = bookDao.getByTitleAndPublisher(title, publisher);
         assertThat(book).isNotNull();
     }
@@ -151,6 +158,25 @@ class BookHibernateDaoImplTest {
 
         assertThat(found).isNotNull();
         assertThat(found.size()).isEqualTo(5);
+    }
+
+    @Test
+    void deleteBookByIdWithoutFlushModeCommit() {
+        BookHibernate book = getSavedBookHibernate();
+        bookDao.deleteByIdWithFlushModeCommit(book.getId());
+    }
+
+    @Test
+    void deleteBookByIdWithFlushAndAuto() {
+        BookHibernate book = getSavedBookHibernate();
+        bookDao.deleteByIdWithFlushModeAuto(book.getId());
+    }
+
+    private BookHibernate getSavedBookHibernate() {
+        BookHibernate bookToSave = getNewBook();
+        BookHibernate book = bookDao.saveNewBook(bookToSave);
+        assertThat(book).isNotNull();
+        return book;
     }
 
     private BookHibernate getNewBook() {
