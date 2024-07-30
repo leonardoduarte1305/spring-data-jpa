@@ -32,5 +32,6 @@ public class OrderLine extends BaseEntity {
     private OrderHeader orderHeader;
 
     @ManyToOne(optional = false, targetEntity = Product.class)
+    @JoinColumn(name = "PRODUCT_ID")
     private Product product;
 }

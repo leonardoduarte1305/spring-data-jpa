@@ -6,7 +6,7 @@ databaseChangeLog:
         - addColumn:
             columns:
               - column:
-                  name: PRODUCT_ID_ID
+                  name: PRODUCT_ID
                   type: BIGINT
               - addForeignKeyConstraint:
                   referencedColumnNames: ID
