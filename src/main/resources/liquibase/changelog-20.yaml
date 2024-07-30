@@ -1,0 +1,49 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1719488983111-1
+      author: spring-data-jpa-app
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                  name: id
+                  type: BIGINT
+              - column:
+                  name: title
+                  type: VARCHAR(255)
+              - column:
+                  name: author_id
+                  type: BIGINT
+              - column:
+                  name: fetched_author_id
+                  type: BIGINT
+              - column:
+                  name: sub_selected_author_id
+                  type: BIGINT
+            tableName: book_nplusone
+        - createTable:
+            columns:
+              - column:
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                  name: id
+                  type: BIGINT
+              - column:
+                  name: first_name
+                  type: VARCHAR(255)
+              - column:
+                  name: books
+                  type: BIGINT
+              - column:
+                  name: batch_fetched_books
+                  type: BIGINT
+              - column:
+                  name: subselect_books
+                  type: BIGINT
+            tableName: author_nplusone

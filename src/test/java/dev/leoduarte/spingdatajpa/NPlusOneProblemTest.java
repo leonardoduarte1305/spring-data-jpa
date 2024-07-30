@@ -1,15 +1,14 @@
 package dev.leoduarte.spingdatajpa;
 
 import dev.leoduarte.spingdatajpa.domain.problementities.AuthorNPlusOne;
-import dev.leoduarte.spingdatajpa.domain.problementities.AuthorNPlusOneCustomRepository;
 import dev.leoduarte.spingdatajpa.domain.problementities.AuthorNPlusOneRepository;
 import dev.leoduarte.spingdatajpa.domain.problementities.BookNPlusOne;
+import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.util.List;
@@ -17,7 +16,6 @@ import java.util.List;
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @ActiveProfiles("default")
-@Import(AuthorNPlusOneCustomRepository.class)
 @ComponentScan(basePackages = {"dev.leoduarte.spingdatajpa.bootstrap"})
 public class NPlusOneProblemTest {
 
@@ -27,7 +25,7 @@ public class NPlusOneProblemTest {
     private AuthorNPlusOneRepository authorNPlusOneRepository;
 
     @Autowired
-    private AuthorNPlusOneCustomRepository customRepository;
+    private EntityManager entityManager;
 
     // With N + 1 Problem occurring // NO STRATEGY
     @Test
@@ -80,7 +78,7 @@ public class NPlusOneProblemTest {
     // Without the N + 1 Problem occurring // STRATEGY 3 - GRAPH
     @Test
     void testAvoidingNPlusOneProblemStrategy3() {
-        List<AuthorNPlusOne> authors = customRepository.getAuthorNPlusOneUsingEntityGraph();
+        List<AuthorNPlusOne> authors = authorNPlusOneRepository.getAuthorNPlusOneUsingEntityGraph(entityManager);
         authors.forEach(authorNPlusOne ->
                 System.err.println(authorNPlusOne.getFirstName()
                 ));
@@ -129,7 +127,7 @@ public class NPlusOneProblemTest {
     @Test
     void testAvoidingNPlusOneProblemStrategy6() {
         List<AuthorNPlusOne> authors = authorNPlusOneRepository.findAll();
-        List<BookNPlusOne> books = customRepository.findBooksWhereAithorIsIn(authors);
+        List<BookNPlusOne> books = authorNPlusOneRepository.findBooksWhereAithorIsIn(authors, entityManager);
 
         authors.forEach(authorNPlusOne ->
                 System.err.println(authorNPlusOne.getFirstName()

@@ -7,16 +7,16 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.context.annotation.Profile;
 
 @Entity
 @Getter
 @Setter
+@Table(name = "BOOK_NPLUSONE")
 @NoArgsConstructor
-@Profile("default")
 public class BookNPlusOne {
 
     @Id
@@ -34,7 +34,7 @@ public class BookNPlusOne {
     private AuthorNPlusOne batchFetchedAuthor;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "subSelected_author_id")
+    @JoinColumn(name = "sub_selected_author_id")
     private AuthorNPlusOne subSelectedAuthor;
 
     public BookNPlusOne(String title, AuthorNPlusOne receivedAuthor) {
