@@ -14,21 +14,25 @@ public class PageableQueryExecutor {
     private final EntityManager entityManager;
 
     public <T> Page<T> execute(QueryBuilder builder, Class<T> type, Pageable pageable) {
+        return execute(builder, type, pageable, "");
+    }
+
+    public <T> Page<T> execute(QueryBuilder builder, Class<T> type, Pageable pageable, String entidade) {
         List<T> result = builder.build(entityManager, type, pageable).getResultList();
 
         long total = result.size();
         if (pageable.isPaged() && total >= pageable.getPageSize()) {
-            total = getTotal(builder);
+            total = getTotal(builder, entidade);
         }
 
         return new PageImpl<>(result, pageable, total);
     }
 
-    private long getTotal(QueryBuilder builder) {
+    private long getTotal(QueryBuilder builder, String entidade) {
         QueryBuilder countBuilder = new QueryBuilder();
         countBuilder.append("SELECT COUNT(*) ");
 
-        countBuilder.append(extractFromWhere(builder.getQuery()));
+        countBuilder.append(extractFromWhere(builder.getQuery(), entidade));
 
         builder.getParams().forEach((param, value) -> {
             if (countBuilder.getQuery().contains(String.format(":%s", param))) {
@@ -39,8 +43,8 @@ public class PageableQueryExecutor {
         return countBuilder.build(entityManager, Long.class).getSingleResult();
     }
 
-    private String extractFromWhere(String query) {
-        int fromIndex = query.toUpperCase().indexOf("FROM");
+    private String extractFromWhere(String query, String entidade) {
+        int fromIndex = query.toUpperCase().indexOf("FROM " + entidade);
         int groupByIndex = query.toUpperCase().indexOf("GROUP BY");
         int orderByIndex = query.toUpperCase().indexOf("ORDER BY");
 

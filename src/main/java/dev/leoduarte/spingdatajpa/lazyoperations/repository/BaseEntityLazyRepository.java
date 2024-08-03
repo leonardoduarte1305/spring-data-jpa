@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface BaseEntityLazyRepository extends JpaRepository<BaseEntityLazy, Long> {
+public interface BaseEntityLazyRepository extends JpaRepository<BaseEntityLazy, Long>, BaseEntityLazyCustomRepository {
 
     @Query("SELECT b FROM BaseEntityLazy b " +
             "JOIN FETCH b.childManyToMany " +

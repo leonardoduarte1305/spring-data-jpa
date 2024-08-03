@@ -5,8 +5,8 @@ import dev.leoduarte.spingdatajpa.lazyoperations.domain.ChildManyToMany;
 import dev.leoduarte.spingdatajpa.lazyoperations.domain.ChildManyToOne;
 import dev.leoduarte.spingdatajpa.lazyoperations.domain.ChildOneToMany;
 import dev.leoduarte.spingdatajpa.lazyoperations.domain.ChildOneToOne;
+import dev.leoduarte.spingdatajpa.lazyoperations.filter.BaseEntityLazyDto;
 import dev.leoduarte.spingdatajpa.lazyoperations.repository.BaseEntityLazyRepository;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
@@ -50,14 +50,15 @@ public class LazyLoadingTests {
         numRegistros = parseInt(valueOf(round(random() * 10 + 5)));
     }
 
-    @RepeatedTest(100)
+    @RepeatedTest(10000)
     @Order(1)
     @Commit
     void carregaDadosNoBancoDeDados() {
+        int bigString = 40;
         BaseEntityLazy baseEntityLazy = BaseEntityLazy
                 .builder()
-                .propertyOne("Name With Characters")
-                .propertyTwo("Another Name With Characters")
+                .propertyOne(randomAlphanumeric(bigString))
+                .propertyTwo(randomAlphanumeric(bigString))
                 .childOneToOne(getChildOneToOne())
                 .childManyToOne(getChildManyToOne())
                 .childOneToMany(getChildOneToManies(numRegistros))
@@ -147,10 +148,49 @@ public class LazyLoadingTests {
     }
 
     @Test
+    @Order(3)
+    void testaLazyLoadingContadoQueries() {
+        Pageable page = Pageable.ofSize(10);
+        BaseEntityLazy recebidos = repository.findAll(page)
+                .getContent()
+                .get(0);
+        System.out.println("recebidos.getId() = " + recebidos.getId());
+
+        System.out.println("recebidos.getChildOneToOne() = " + recebidos.getChildOneToOne());
+        System.out.println("recebidos.getChildManyToOne() = " + recebidos.getChildManyToOne());
+        System.out.println("recebidos.getChildOneToMany().size() = " + recebidos.getChildOneToMany().size());
+        System.out.println("recebidos.getChildManyToMany().size() = " + recebidos.getChildManyToMany().size());
+
+        // Each statement fetches something from the database, 6 is the number of queries run against the database
+        /*
+        1 - Fetch BaseEntityLazy
+        2 - Count from EntityLazy (for the Pageable)
+        3 - Fetch ChildOneToOne
+        4 - Fetch ChildManyToOne
+        5 - Fetch ChildOneToMany
+        6 - Fetch from ChildManyToMany JOINING ManyToManyTable
+         */
+    }
+
+    @Test
+    @Order(4)
     void testQueryLimit() {
         Pageable page = Pageable.ofSize(10);
         Page<BaseEntityLazy> encontrados = repository.findWithLimit(page);
 
         assertThat(encontrados.getContent().size()).isEqualTo(page.getPageSize());
+    }
+
+    @Test
+    @Order(5)
+    void testCustomQuery() {
+        BaseEntityLazyDto filtro = new BaseEntityLazyDto();
+        filtro
+                .setPropertyOne("th Ch")
+                .setPropertyTwo("other");
+
+        List<BaseEntityLazy> byFiltro = repository.findByFiltro(filtro);
+
+        assertThat(byFiltro.size()).isGreaterThan(1);
     }
 }

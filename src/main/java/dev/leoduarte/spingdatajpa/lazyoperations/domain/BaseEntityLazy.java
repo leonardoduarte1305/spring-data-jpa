@@ -49,7 +49,7 @@ public class BaseEntityLazy {
 
     @JoinColumn(name = "CHILD_ONE_TO_MANY")
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST, orphanRemoval = true)
-//    @Builder.Default
+    @Builder.Default
     private Set<ChildOneToMany> childOneToMany = new HashSet<>();
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
@@ -61,7 +61,7 @@ public class BaseEntityLazy {
             name = "MANY_TO_MANY_TABLE",
             joinColumns = @JoinColumn(name = "ID_BASE_ENTITY_LAZY"),
             inverseJoinColumns = @JoinColumn(name = "ID_CHILD_MANY_TO_MANY_TABLE"))
-//    @Builder.Default
+    @Builder.Default
     private Set<ChildManyToMany> childManyToMany = new HashSet<>();
 
 }

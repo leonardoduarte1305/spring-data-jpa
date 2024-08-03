@@ -32,20 +32,20 @@ public class QueryBuilder {
 
     // STRINGS
     public QueryBuilder addString(String value, String hql, String paramName) {
-        appendQuery(hql, paramName, value);
+        appendQuery(value, hql, paramName);
         return this;
     }
 
     public QueryBuilder addStringNotEmpty(String value, String hql, String paramName) {
         if (StringUtils.isNotEmpty(value)) {
-            appendQuery(hql, paramName, value);
+            appendQuery(value, hql, paramName);
         }
         return this;
     }
 
     public QueryBuilder addStringLike(String value, String hql, String paramName) {
         value = "%" + value + "%";
-        appendQuery(hql, paramName, value);
+        appendQuery(value, hql, paramName);
 
         return this;
     }
@@ -53,7 +53,7 @@ public class QueryBuilder {
     public QueryBuilder addStringLikeNotEmpty(String value, String hql, String paramName) {
         if (StringUtils.isNotEmpty(value)) {
             value = "%" + value + "%";
-            appendQuery(hql, paramName, value);
+            appendQuery(value, hql, paramName);
         }
         return this;
     }
@@ -61,14 +61,14 @@ public class QueryBuilder {
 
     // OBJECTS
     public QueryBuilder addObject(Object value, String hql, String paramName) {
-        appendQuery(hql, paramName, value);
+        appendQuery(value, hql, paramName);
 
         return this;
     }
 
     public QueryBuilder addObjectNotNull(Object value, String hql, String paramName) {
         if (Objects.nonNull(value)) {
-            appendQuery(hql, paramName, value);
+            appendQuery(value, hql, paramName);
         }
         return this;
     }
@@ -77,7 +77,7 @@ public class QueryBuilder {
     // COLLECTIONS
     public QueryBuilder addCollectionNotEmpty(Collection collection, String hql, String paramName) {
         if (CollectionUtils.isNotEmpty(collection)) {
-            appendQuery(hql, paramName, collection);
+            appendQuery(collection, hql, paramName);
         }
         return this;
     }
@@ -96,7 +96,7 @@ public class QueryBuilder {
         return this;
     }
 
-    private void appendQuery(String hql, String paramName, Object value) {
+    private void appendQuery(Object value, String hql, String paramName) {
         query.append(hql);
         params.put(paramName, value);
     }
