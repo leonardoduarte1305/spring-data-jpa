@@ -1,0 +1,150 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1719488983112-1
+      author: spring-data-jpa-app
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_base_entity_lazy
+                  name: id_base_entity_lazy
+                  type: BIGINT
+              - column:
+                  name: property_one
+                  type: VARCHAR(255)
+              - column:
+                  name: property_two
+                  type: VARCHAR(255)
+              - column:
+                  name: child_one_to_one
+                  type: BIGINT
+              - column:
+                  name: child_many_to_one
+                  type: BIGINT
+            tableName: base_entity_lazy
+        - createTable:
+            columns:
+              - column:
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_child_many_to_many_table
+                  name: id_child_many_to_many_table
+                  type: BIGINT
+              - column:
+                  name: property_one
+                  type: VARCHAR(255)
+              - column:
+                  name: property_two
+                  type: VARCHAR(255)
+            tableName: child_many_to_many_table
+        - createTable:
+            columns:
+              - column:
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_child_many_to_one_table
+                  name: id_child_many_to_one_table
+                  type: BIGINT
+              - column:
+                  name: property_one
+                  type: VARCHAR(255)
+              - column:
+                  name: property_two
+                  type: VARCHAR(255)
+            tableName: child_many_to_one_table
+        - createTable:
+            columns:
+              - column:
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_child_one_to_many_table
+                  name: id_child_one_to_many_table
+                  type: BIGINT
+              - column:
+                  name: property_one
+                  type: VARCHAR(255)
+              - column:
+                  name: property_two
+                  type: VARCHAR(255)
+              - column:
+                  name: child_one_to_many
+                  type: BIGINT
+            tableName: child_one_to_many_table
+        - createTable:
+            columns:
+              - column:
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_child_one_to_one_table
+                  name: id_child_one_to_one_table
+                  type: BIGINT
+              - column:
+                  name: property_one
+                  type: VARCHAR(255)
+              - column:
+                  name: property_two
+                  type: VARCHAR(255)
+            tableName: child_one_to_one_table
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_many_to_many_table
+                  name: id_base_entity_lazy
+                  type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_many_to_many_table
+                  name: id_child_many_to_many_table
+                  type: BIGINT
+            tableName: many_to_many_table
+        - addUniqueConstraint:
+            columnNames: child_one_to_one
+            constraintName: uc_base_entity_lazy_child_one_to_one
+            tableName: base_entity_lazy
+        - addForeignKeyConstraint:
+            baseColumnNames: child_many_to_one
+            baseTableName: base_entity_lazy
+            constraintName: FK_BASE_ENTITY_LAZY_ON_CHILD_MANY_TO_ONE
+            referencedColumnNames: id_child_many_to_one_table
+            referencedTableName: child_many_to_one_table
+        - addForeignKeyConstraint:
+            baseColumnNames: child_one_to_one
+            baseTableName: base_entity_lazy
+            constraintName: FK_BASE_ENTITY_LAZY_ON_CHILD_ONE_TO_ONE
+            referencedColumnNames: id_child_one_to_one_table
+            referencedTableName: child_one_to_one_table
+        - addForeignKeyConstraint:
+            baseColumnNames: child_one_to_many
+            baseTableName: child_one_to_many_table
+            constraintName: FK_CHILD_ONE_TO_MANY_TABLE_ON_CHILD_ONE_TO_MANY
+            referencedColumnNames: id_base_entity_lazy
+            referencedTableName: base_entity_lazy
+        - addForeignKeyConstraint:
+            baseColumnNames: id_base_entity_lazy
+            baseTableName: many_to_many_table
+            constraintName: fk_mantomantab_on_base_entity_lazy
+            referencedColumnNames: id_base_entity_lazy
+            referencedTableName: base_entity_lazy
+        - addForeignKeyConstraint:
+            baseColumnNames: id_child_many_to_many_table
+            baseTableName: many_to_many_table
+            constraintName: fk_mantomantab_on_child_many_to_many
+            referencedColumnNames: id_child_many_to_many_table
+            referencedTableName: child_many_to_many_table
