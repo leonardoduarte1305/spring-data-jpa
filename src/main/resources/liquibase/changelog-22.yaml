@@ -1,0 +1,23 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1719488983112-1
+      author: spring-data-jpa-app
+      changes:
+        - addColumn:
+            columns:
+              - column:
+                  name: authorComJoinFetch
+                  type: BIGINT
+              - column:
+                  name: authorComJoinFetch2
+                  type: BIGINT
+            tableName: author_nplusone
+        - addColumn:
+            columns:
+              - column:
+                  name: author_com_join_fetch
+                  type: BIGINT
+              - column:
+                  name: author_com_join_fetch_2
+                  type: BIGINT
+            tableName: book_nplusone

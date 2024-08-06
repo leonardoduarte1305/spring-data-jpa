@@ -39,4 +39,9 @@ public interface AuthorNPlusOneRepository extends JpaRepository<AuthorNPlusOne, 
                 .setParameter("authors", authors)
                 .getResultList();
     }
+
+    @Query("SELECT a FROM AuthorNPlusOne a " +
+            "JOIN FETCH a.bookComJoinFetch nodeA " +
+            "JOIN FETCH a.bookComJoinFetch2 nodeB ")
+    List<AuthorNPlusOne> fetchingPropertiesComJoinFetch();
 }

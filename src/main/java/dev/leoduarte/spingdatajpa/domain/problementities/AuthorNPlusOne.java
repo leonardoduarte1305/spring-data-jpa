@@ -44,6 +44,14 @@ public class AuthorNPlusOne {
     @Fetch(FetchMode.SUBSELECT) // STRATEGY 5 - SUBSELECT
     private List<BookNPlusOne> subselectBooks;
 
+    // To see the JPA/Hibernate messing when brings two lists with JOIN FETCH
+    @OneToMany(mappedBy = "authorComJoinFetch", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<BookNPlusOne> bookComJoinFetch;
+
+    // To see the JPA/Hibernate messing when brings two lists with JOIN FETCH
+    @OneToMany(mappedBy = "authorComJoinFetch2", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<BookNPlusOne> bookComJoinFetch2;
+
     public AuthorNPlusOne(String firstName) {
         this.firstName = firstName;
     }

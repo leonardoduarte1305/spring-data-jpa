@@ -4,14 +4,19 @@ import dev.leoduarte.spingdatajpa.domain.problementities.AuthorNPlusOne;
 import dev.leoduarte.spingdatajpa.domain.problementities.AuthorNPlusOneRepository;
 import dev.leoduarte.spingdatajpa.domain.problementities.BookNPlusOne;
 import jakarta.persistence.EntityManager;
+import org.hibernate.loader.MultipleBagFetchException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.util.List;
+
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
@@ -139,5 +144,19 @@ public class NPlusOneProblemTest {
                 System.err.println("Book: " + book.getTitle());
             }
         }
+    }
+
+    @Test
+    void testWithTwoJoinFetch() {
+        InvalidDataAccessApiUsageException exception = assertThrows(InvalidDataAccessApiUsageException.class, () ->
+                authorNPlusOneRepository.fetchingPropertiesComJoinFetch()
+        );
+
+        assertThat(exception.getMostSpecificCause()).isInstanceOf(MultipleBagFetchException.class);
+        assertThat(exception.getMessage()).isEqualTo(
+                "org.hibernate.loader.MultipleBagFetchException:" +
+                        " cannot simultaneously fetch multiple bags:" +
+                        " [dev.leoduarte.spingdatajpa.domain.problementities.AuthorNPlusOne.bookComJoinFetch," +
+                        " dev.leoduarte.spingdatajpa.domain.problementities.AuthorNPlusOne.bookComJoinFetch2]");
     }
 }

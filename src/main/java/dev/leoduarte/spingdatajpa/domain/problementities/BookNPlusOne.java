@@ -37,6 +37,14 @@ public class BookNPlusOne {
     @JoinColumn(name = "sub_selected_author_id")
     private AuthorNPlusOne subSelectedAuthor;
 
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "author_com_join_fetch")
+    private AuthorNPlusOne authorComJoinFetch;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "author_com_join_fetch_2")
+    private AuthorNPlusOne authorComJoinFetch2;
+
     public BookNPlusOne(String title, AuthorNPlusOne receivedAuthor) {
         this.title = title;
         this.author = receivedAuthor;
