@@ -1,0 +1,23 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1719488983112-1
+      author: spring-data-jpa-app
+      changes:
+        - addColumn:
+            columns:
+              - column:
+                  name: book_one_to_one_lazy_relation1
+                  type: BIGINT
+              - column:
+                  name: book_one_to_one_lazy_relation2
+                  type: BIGINT
+            tableName: author_nplusone
+        - addColumn:
+            columns:
+              - column:
+                  name: author_one_to_one_lazy_relation1
+                  type: BIGINT
+              - column:
+                  name: author_one_to_one_lazy_relation2
+                  type: BIGINT
+            tableName: book_nplusone

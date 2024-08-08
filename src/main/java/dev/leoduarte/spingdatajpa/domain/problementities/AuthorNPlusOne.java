@@ -7,7 +7,9 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -51,6 +53,16 @@ public class AuthorNPlusOne {
     // To see the JPA/Hibernate messing when brings two lists with JOIN FETCH
     @OneToMany(mappedBy = "authorComJoinFetch2", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<BookNPlusOne> bookComJoinFetch2;
+
+    // To see the JPA/Hibernate bringing two attributes with JOIN FETCH
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "book_one_to_one_lazy_relation1")
+    private BookNPlusOne bookOneToOneLazyRelation1;
+
+    // To see the JPA/Hibernate bringing two attributes with JOIN FETCH
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "book_one_to_one_lazy_relation2")
+    private BookNPlusOne bookOneToOneLazyRelation2;
 
     public AuthorNPlusOne(String firstName) {
         this.firstName = firstName;

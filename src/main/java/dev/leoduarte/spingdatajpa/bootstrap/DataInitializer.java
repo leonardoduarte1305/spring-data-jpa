@@ -142,6 +142,11 @@ public class DataInitializer implements CommandLineRunner {
         BookNPlusOne bookNPlusOne2 = new BookNPlusOne("book12", authorNPlusOne1);
         authorNPlusOne1.setAllBooks(List.of(bookNPlusOne1, bookNPlusOne2));
 
+        authorNPlusOne1.setBatchFetchedBooks(List.of(bookNPlusOne1));
+
+        authorNPlusOne1.setBookOneToOneLazyRelation1(bookNPlusOne1);
+        authorNPlusOne1.setBookOneToOneLazyRelation2(bookNPlusOne2);
+
 
         AuthorNPlusOne authorNPlusOne2 = new AuthorNPlusOne("Author2");
         BookNPlusOne bookNPlusOne3 = new BookNPlusOne("book13", authorNPlusOne2);
@@ -149,11 +154,22 @@ public class DataInitializer implements CommandLineRunner {
         BookNPlusOne bookNPlusOne5 = new BookNPlusOne("book15", authorNPlusOne2);
         authorNPlusOne2.setAllBooks(List.of(bookNPlusOne3, bookNPlusOne4, bookNPlusOne5));
 
+        authorNPlusOne2.setBatchFetchedBooks(List.of(bookNPlusOne3));
+
+        authorNPlusOne2.setBookOneToOneLazyRelation1(bookNPlusOne4);
+        authorNPlusOne2.setBookOneToOneLazyRelation2(bookNPlusOne5);
+
         AuthorNPlusOne authorNPlusOne3 = new AuthorNPlusOne("Author3");
         BookNPlusOne bookNPlusOne6 = new BookNPlusOne("book23", authorNPlusOne3);
         BookNPlusOne bookNPlusOne7 = new BookNPlusOne("book24", authorNPlusOne3);
         BookNPlusOne bookNPlusOne8 = new BookNPlusOne("book25", authorNPlusOne3);
         authorNPlusOne3.setAllBooks(List.of(bookNPlusOne6, bookNPlusOne7, bookNPlusOne8));
+
+        authorNPlusOne3.setBatchFetchedBooks(List.of(bookNPlusOne6));
+
+        authorNPlusOne3.setBookOneToOneLazyRelation1(bookNPlusOne7);
+        authorNPlusOne3.setBookOneToOneLazyRelation2(bookNPlusOne8);
+
 
         authorNPlusOneRepository.saveAll(List.of(authorNPlusOne1, authorNPlusOne2, authorNPlusOne3));
 

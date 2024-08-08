@@ -2,11 +2,13 @@ package dev.leoduarte.spingdatajpa.domain.problementities;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -45,10 +47,36 @@ public class BookNPlusOne {
     @JoinColumn(name = "author_com_join_fetch_2")
     private AuthorNPlusOne authorComJoinFetch2;
 
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "author_one_to_one_lazy_relation1")
+    private AuthorNPlusOne authorOneToOneLazyRelation1;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "author_one_to_one_lazy_relation2")
+    private AuthorNPlusOne authorOneToOneLazyRelation2;
+
     public BookNPlusOne(String title, AuthorNPlusOne receivedAuthor) {
         this.title = title;
         this.author = receivedAuthor;
         this.batchFetchedAuthor = receivedAuthor;
         this.subSelectedAuthor = receivedAuthor;
+    }
+
+    public BookNPlusOne(String title,
+                        AuthorNPlusOne author,
+                        AuthorNPlusOne batchFetchedAuthor,
+                        AuthorNPlusOne subSelectedAuthor,
+                        AuthorNPlusOne authorComJoinFetch,
+                        AuthorNPlusOne authorComJoinFetch2,
+                        AuthorNPlusOne authorOneToOneLazyRelation1,
+                        AuthorNPlusOne authorOneToOneLazyRelation2) {
+        this.title = title;
+        this.author = author;
+        this.batchFetchedAuthor = batchFetchedAuthor;
+        this.subSelectedAuthor = subSelectedAuthor;
+        this.authorComJoinFetch = authorComJoinFetch;
+        this.authorComJoinFetch2 = authorComJoinFetch2;
+        this.authorOneToOneLazyRelation1 = authorOneToOneLazyRelation1;
+        this.authorOneToOneLazyRelation2 = authorOneToOneLazyRelation2;
     }
 }

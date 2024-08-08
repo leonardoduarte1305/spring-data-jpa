@@ -159,4 +159,18 @@ public class NPlusOneProblemTest {
                         " [dev.leoduarte.spingdatajpa.domain.problementities.AuthorNPlusOne.bookComJoinFetch," +
                         " dev.leoduarte.spingdatajpa.domain.problementities.AuthorNPlusOne.bookComJoinFetch2]");
     }
+
+    @Test
+    void testWithTwoJoinFetchInAOneToOneLazyRelationship() {
+        authorNPlusOneRepository.fetchingOneToOnePropertiesComJoinFetch();
+    }
+
+    @Test
+    void testWithoutTwoJoinFetchInAOneToOneLazyRelationship() {
+        List<AuthorNPlusOne> encontrados = authorNPlusOneRepository.fetchingOneToOnePropertiesSemJoinFetch();
+
+        System.out.println("encontrados.get(0).getId() = " + encontrados.get(0).getId());
+        System.out.println("encontrados.get(0).getBookOneToOneLazyRelation1() = " + encontrados.get(0).getBookOneToOneLazyRelation1());
+        System.out.println("encontrados.get(0).getBookOneToOneLazyRelation2() = " + encontrados.get(0).getBookOneToOneLazyRelation2());
+    }
 }
