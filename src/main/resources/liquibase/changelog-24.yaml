@@ -1,0 +1,44 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1719488983115-1
+      author: spring-data-jpa-app
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_entity_with_data_annotation_mess
+                  name: id_entity_with_data_annotation_mess
+                  type: BIGINT
+              - column:
+                  name: property_one
+                  type: VARCHAR(255)
+              - column:
+                  name: property_two
+                  type: VARCHAR(255)
+              - column:
+                  name: mess_child_one_to_one
+                  type: BIGINT
+              - column:
+                  name: mess_child_many_to_one
+                  type: BIGINT
+            tableName: entity_with_data_annotation_mess
+        - addUniqueConstraint:
+            columnNames: mess_child_one_to_one
+            constraintName: uc_entity_with_data_annotation_mess
+            tableName: entity_with_data_annotation_mess
+        - addForeignKeyConstraint:
+            baseColumnNames: mess_child_many_to_one
+            baseTableName: entity_with_data_annotation_mess
+            constraintName: FK_ENTITY_WITH_DATA_ANNOTATION_MESS
+            referencedColumnNames: id_child_many_to_one_table
+            referencedTableName: child_many_to_one_table
+        - addForeignKeyConstraint:
+            baseColumnNames: mess_child_one_to_one
+            baseTableName: entity_with_data_annotation_mess
+            constraintName: FK_ENTITY_WITH_DATA_ANNOTATION_MESS_ON_CHILD_ONE_TO_ONE
+            referencedColumnNames: id_child_one_to_one_table
+            referencedTableName: child_one_to_one_table

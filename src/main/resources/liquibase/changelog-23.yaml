@@ -1,6 +1,6 @@
 databaseChangeLog:
   - changeSet:
-      id: 1719488983112-1
+      id: 1719488983114-1
       author: spring-data-jpa-app
       changes:
         - addColumn:
