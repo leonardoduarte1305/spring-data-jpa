@@ -67,7 +67,7 @@ class EntityWithDataAnnotationMessTest {
 
         System.out.println("Breakpoint this line and uncomment the next one.");
         System.out.println("You can change from @Data to @Getter and @Setter to see the ifference as well.");
-//        System.out.println("found = " + found);
+        System.out.println("found = " + found);
 
         assertThat(listAppender.list)
                 .extracting(event -> unescapeJava(event.getFormattedMessage()).replaceAll("\\s+", " ").trim())
