@@ -47,3 +47,7 @@ databaseChangeLog:
       file: /liquibase/changelog-23.yaml
   - include:
       file: /liquibase/changelog-24.yaml
+  - include:
+      file: /liquibase/changelog-25.yaml
+  - include:
+      file: /liquibase/changelog-26.yaml

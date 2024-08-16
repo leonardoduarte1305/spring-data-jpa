@@ -1,0 +1,22 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1719488983116-1
+      author: spring-data-jpa-app
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_versioned_entity
+                  name: id_versioned_entity
+                  type: BIGINT
+              - column:
+                  name: property_one
+                  type: VARCHAR(255)
+              - column:
+                  name: actual_version
+                  type: INTEGER
+            tableName: versioned_entity

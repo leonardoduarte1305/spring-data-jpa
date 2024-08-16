@@ -1,0 +1,11 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1719488983117-1
+      author: spring-data-jpa-app
+      changes:
+        - insert:
+            columns:
+              - column:
+                  name: actual_version
+                  value: 0
+            tableName: versioned_entity
