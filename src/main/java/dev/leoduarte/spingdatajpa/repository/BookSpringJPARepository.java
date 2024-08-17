@@ -1,7 +1,9 @@
 package dev.leoduarte.spingdatajpa.repository;
 
 import dev.leoduarte.spingdatajpa.domain.springdatajpa.BookSpringJPA;
+import jakarta.persistence.LockModeType;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Lock;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.lang.Nullable;
@@ -14,6 +16,10 @@ import java.util.stream.Stream;
 
 @Repository
 public interface BookSpringJPARepository extends JpaRepository<BookSpringJPA, Long> {
+
+    @Override
+    @Lock(LockModeType.PESSIMISTIC_WRITE)
+    Optional<BookSpringJPA> findById(Long aLong);
 
     BookSpringJPA namedQueryToUse(@Param("title") String title);
 

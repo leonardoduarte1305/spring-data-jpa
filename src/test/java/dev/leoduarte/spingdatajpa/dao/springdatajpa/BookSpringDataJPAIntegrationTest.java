@@ -1,14 +1,23 @@
 package dev.leoduarte.spingdatajpa.dao.springdatajpa;
 
+import ch.qos.logback.classic.Level;
+import ch.qos.logback.classic.Logger;
+import ch.qos.logback.classic.spi.ILoggingEvent;
+import ch.qos.logback.core.read.ListAppender;
 import dev.leoduarte.spingdatajpa.dao.BookDao;
 import dev.leoduarte.spingdatajpa.domain.springdatajpa.AuthorSpringJPA;
 import dev.leoduarte.spingdatajpa.domain.springdatajpa.BookSpringJPA;
 import dev.leoduarte.spingdatajpa.repository.AuthorSpringJPARepository;
 import dev.leoduarte.spingdatajpa.repository.BookSpringJPARepository;
+import dev.leoduarte.spingdatajpa.services.BookJPAService;
+import dev.leoduarte.spingdatajpa.services.BookJPAServiceImpl;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -22,13 +31,14 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import static org.apache.commons.text.StringEscapeUtils.unescapeJava;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @DataJpaTest
-@Import(BookSpringDataJPADaoImpl.class)
+@Import({BookSpringDataJPADaoImpl.class, BookJPAServiceImpl.class})
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @ActiveProfiles("local")
@@ -42,6 +52,24 @@ public class BookSpringDataJPAIntegrationTest {
 
     @Autowired
     AuthorSpringJPARepository authorRepository;
+
+    @Autowired
+    BookJPAService service;
+
+    private final Logger hibernateLogger = (Logger) LoggerFactory.getLogger("org.hibernate.SQL");
+    private final ListAppender<ILoggingEvent> listAppender = new ListAppender<>();
+
+    @BeforeEach
+    void setUp() {
+        hibernateLogger.setLevel(Level.DEBUG);
+        hibernateLogger.addAppender(listAppender);
+        listAppender.start();
+    }
+
+    @AfterEach
+    void tearDown() {
+        hibernateLogger.detachAppender(listAppender);
+    }
 
     @Test
     @Order(1)
@@ -183,5 +211,24 @@ public class BookSpringDataJPAIntegrationTest {
         String isbn = "ISBN 1";
         AuthorSpringJPA author = authorRepository.findAll().stream().findFirst().get();
         return new BookSpringJPA(null, title, isbn, publisher, author.getId());
+    }
+
+    @Test
+    void test123123() {
+        BookSpringJPA bookToSave = new BookSpringJPA(null, "title01", "isbn01", "A Fancy publisher", 10L);
+        BookSpringJPA savedBook = service.save(bookToSave);
+
+        assertThat(savedBook).isNotNull();
+        BookSpringJPA bookUpdated = service.updateBook(savedBook.getId(), 300L);
+
+        System.out.println("bookUpdated.getAuthor() = " + bookUpdated.getAuthor());
+
+        assertThat(listAppender.list)
+                .extracting(event -> unescapeJava(event.getFormattedMessage()).replaceAll("\\s+", " ").trim())
+                .contains(messageWithForUpdateClause());
+    }
+
+    private static String messageWithForUpdateClause() {
+        return "select id from book_spring_jpa where id=? for update";
     }
 }
