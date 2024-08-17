@@ -15,6 +15,7 @@ import dev.leoduarte.spingdatajpa.domain.problementities.AuthorNPlusOne;
 import dev.leoduarte.spingdatajpa.domain.problementities.AuthorNPlusOneRepository;
 import dev.leoduarte.spingdatajpa.domain.problementities.BookNPlusOne;
 import dev.leoduarte.spingdatajpa.domain.problementities.BookNPlusOneRepository;
+import dev.leoduarte.spingdatajpa.domain.springdatajpa.BookSpringJPA;
 import dev.leoduarte.spingdatajpa.repository.AuthorHibernateRepository;
 import dev.leoduarte.spingdatajpa.repository.AuthorRepository;
 import dev.leoduarte.spingdatajpa.repository.BookCompositeKeyRepository;
@@ -24,6 +25,7 @@ import dev.leoduarte.spingdatajpa.repository.BookNaturalKeyRepository;
 import dev.leoduarte.spingdatajpa.repository.BookRepository;
 import dev.leoduarte.spingdatajpa.repository.BookUuidRFC4122Repository;
 import dev.leoduarte.spingdatajpa.repository.BookUuidRepository;
+import dev.leoduarte.spingdatajpa.services.BookJPAService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Profile;
@@ -50,8 +52,26 @@ public class DataInitializer implements CommandLineRunner {
     private final AuthorRepository authorRepository;
     private final AuthorHibernateRepository authorHibernateRepository;
 
+    private final BookJPAService service;
+
+    private void updateBook() {
+        BookSpringJPA bookToSave = new BookSpringJPA(null, "title01", "isbn01", "A Fancy publisher", 10L);
+        BookSpringJPA savedBook = service.save(bookToSave);
+
+        BookSpringJPA bookUpdated = service.updateBook(savedBook.getId(), 300L);
+        System.out.println("bookUpdated.getAuthor() = " + bookUpdated.getAuthor());
+    }
+
     @Override
     public void run(String... args) throws Exception {
+        /*
+            To fix the error related to the locking you must annotate the service method with @Transactional:
+            GenericJDBCException: JDBC exception executing SQL
+            [select bsj1_0.id,bsj1_0.author,bsj1_0.isbn,bsj1_0.publisher,bsj1_0.title from book_spring_jpa bsj1_0 where bsj1_0.id=? for update]
+            [Cannot execute statement in a READ ONLY transaction.]
+         */
+        updateBook();
+
         bookRepository.deleteAll();
         uuidRepository.deleteAll();
         rfc4122Repository.deleteAll();
