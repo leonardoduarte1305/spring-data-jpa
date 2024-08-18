@@ -1,0 +1,25 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1719488983118-1
+      author: spring-data-jpa-app
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_credit_card
+                  name: id_credit_card
+                  type: BIGINT
+              - column:
+                  name: cc_number
+                  type: VARCHAR(255)
+              - column:
+                  name: cvv
+                  type: VARCHAR(255)
+              - column:
+                  name: expiration_date
+                  type: DATE
+            tableName: credit_card
