@@ -5,7 +5,6 @@ import lombok.RequiredArgsConstructor;
 import org.hibernate.CallbackException;
 import org.hibernate.Interceptor;
 import org.hibernate.type.Type;
-import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import java.lang.reflect.Field;
@@ -14,7 +13,7 @@ import java.util.List;
 import java.util.Objects;
 
 @RequiredArgsConstructor
-@Component
+//@Component
 public class EncryptionInterceptor implements Interceptor {
 
     private final EncryptionService encryptionService;
