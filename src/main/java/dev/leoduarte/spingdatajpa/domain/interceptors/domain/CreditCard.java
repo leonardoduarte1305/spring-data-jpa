@@ -1,8 +1,10 @@
 package dev.leoduarte.spingdatajpa.domain.interceptors.domain;
 
+import dev.leoduarte.spingdatajpa.domain.callback.CreditCardConverter;
 import dev.leoduarte.spingdatajpa.domain.callback.CreditCardJPACallback;
 import dev.leoduarte.spingdatajpa.domain.interceptors.interceptors.ShouldBeEncrypted;
 import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
@@ -24,7 +26,7 @@ import java.time.LocalDate;
 @Table(name = "CREDIT_CARD")
 @AllArgsConstructor
 @NoArgsConstructor
-@EntityListeners({CreditCardJPACallback.class})
+//@EntityListeners({CreditCardJPACallback.class})
 public class CreditCard {
 
     @Id
@@ -33,7 +35,7 @@ public class CreditCard {
     private Long id;
 
     @Column(name = "CC_NUMBER")
-    @ShouldBeEncrypted
+//    @ShouldBeEncrypted
     private String ccNumber;
 
     @Column(name = "CVV")
