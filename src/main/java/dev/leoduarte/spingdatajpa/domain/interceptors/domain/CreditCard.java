@@ -36,6 +36,7 @@ public class CreditCard {
 
     @Column(name = "CC_NUMBER")
 //    @ShouldBeEncrypted
+    @Convert(converter = CreditCardConverter.class)
     private String ccNumber;
 
     @Column(name = "CVV")
