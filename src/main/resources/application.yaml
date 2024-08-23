@@ -1,21 +1,37 @@
 spring:
   application:
     name: sping-data-jpa
-
   jpa:
     database: mysql
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: validate
     properties:
       hibernate:
         format_sql: true
         show_sql: true
         dialect: org.hibernate.dialect.MySQLDialect
     defer-datasource-initialization: false
-  datasource: # For the usage of H2 with MySQL compatibility
-    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;MODE=MYSQL;DATABASE_TO_LOWER=TRUE;CASE_INSENSITIVE_IDENTIFIERS=TRUE
-    username: sa
-    password: password
+  datasourcemysql1:
+    enabled: true
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    datasource:
+      username: mysql1-user
+      password: password
+      url: jdbc:mysql://localhost:3306/datasourcemysql1?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
+  datasourcemysql2:
+    enabled: true
+    datasource:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      username: mysql2-user
+      password: password
+      url: jdbc:mysql://localhost:3306/datasourcemysql2?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
+  datasourcemysql3:
+    enabled: true
+    datasource:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      username: mysql1-user
+      password: password
+      url: jdbc:mysql://localhost:3306/datasourcemysql3?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
   h2:
     console:
       path: /h2-console
@@ -23,6 +39,10 @@ spring:
       # if not provided -> database hash and passaword to connect are in the Console logs
   liquibase:
     change-log: liquibase-changelog-master.yaml
+database:
+  name: bookdb
+  port: 3306
+  server: 127.0.0.1
 logging:
   level:
     # Show bind values

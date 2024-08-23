@@ -1,0 +1,38 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1719488983119-1
+      author: spring-data-jpa-app
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_using_as_example_1
+                  name: id_using_as_example_1
+                  type: BIGINT
+            tableName: using_as_example_1
+        - createTable:
+            columns:
+              - column:
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_using_as_example_2
+                  name: id_using_as_example_2
+                  type: BIGINT
+            tableName: using_as_example_2
+        - createTable:
+            columns:
+              - column:
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_using_as_example_3
+                  name: id_using_as_example_3
+                  type: BIGINT
+            tableName: using_as_example_3
