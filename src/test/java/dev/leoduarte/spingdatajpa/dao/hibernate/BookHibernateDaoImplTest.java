@@ -2,10 +2,9 @@ package dev.leoduarte.spingdatajpa.dao.hibernate;
 
 import dev.leoduarte.spingdatajpa.domain.hibernate.AuthorHibernate;
 import dev.leoduarte.spingdatajpa.domain.hibernate.BookHibernate;
-import dev.leoduarte.spingdatajpa.repository.AuthorHibernateRepository;
-import dev.leoduarte.spingdatajpa.repository.BookHibernateRepository;
+import dev.leoduarte.spingdatajpa.domain.hibernate.repository.AuthorHibernateRepository;
+import dev.leoduarte.spingdatajpa.domain.hibernate.repository.BookHibernateRepository;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.FlushModeType;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;

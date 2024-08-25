@@ -1,6 +1,6 @@
 package dev.leoduarte.spingdatajpa.dao.springjdbctemplate;
 
-import dev.leoduarte.spingdatajpa.domain.Author;
+import dev.leoduarte.spingdatajpa.domain.original.Author;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 

@@ -1,8 +1,8 @@
 package dev.leoduarte.spingdatajpa.dao.oldjdbc;
 
 import dev.leoduarte.spingdatajpa.dao.AuthorDao;
-import dev.leoduarte.spingdatajpa.domain.Author;
-import dev.leoduarte.spingdatajpa.repository.AuthorRepository;
+import dev.leoduarte.spingdatajpa.domain.original.Author;
+import dev.leoduarte.spingdatajpa.domain.original.repository.AuthorRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;

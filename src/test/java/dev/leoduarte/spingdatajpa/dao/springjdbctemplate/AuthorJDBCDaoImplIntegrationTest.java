@@ -1,7 +1,7 @@
 package dev.leoduarte.spingdatajpa.dao.springjdbctemplate;
 
 import dev.leoduarte.spingdatajpa.dao.AuthorDao;
-import dev.leoduarte.spingdatajpa.domain.Author;
+import dev.leoduarte.spingdatajpa.domain.original.Author;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;

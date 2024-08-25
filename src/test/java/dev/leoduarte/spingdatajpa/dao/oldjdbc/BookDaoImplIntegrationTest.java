@@ -1,10 +1,10 @@
 package dev.leoduarte.spingdatajpa.dao.oldjdbc;
 
 import dev.leoduarte.spingdatajpa.dao.BookDao;
-import dev.leoduarte.spingdatajpa.domain.Author;
-import dev.leoduarte.spingdatajpa.domain.Book;
-import dev.leoduarte.spingdatajpa.repository.AuthorRepository;
-import dev.leoduarte.spingdatajpa.repository.BookRepository;
+import dev.leoduarte.spingdatajpa.domain.original.Author;
+import dev.leoduarte.spingdatajpa.domain.original.Book;
+import dev.leoduarte.spingdatajpa.domain.original.repository.AuthorRepository;
+import dev.leoduarte.spingdatajpa.domain.original.repository.BookRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;

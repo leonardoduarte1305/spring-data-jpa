@@ -1,7 +1,7 @@
 package dev.leoduarte.spingdatajpa.dao.springjdbctemplate;
 
 import dev.leoduarte.spingdatajpa.dao.BookDao;
-import dev.leoduarte.spingdatajpa.domain.Book;
+import dev.leoduarte.spingdatajpa.domain.original.Book;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;

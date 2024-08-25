@@ -1,7 +1,7 @@
 package dev.leoduarte.spingdatajpa;
 
-import dev.leoduarte.spingdatajpa.domain.BookNaturalKey;
-import dev.leoduarte.spingdatajpa.repository.BookNaturalKeyRepository;
+import dev.leoduarte.spingdatajpa.domain.original.BookNaturalKey;
+import dev.leoduarte.spingdatajpa.domain.original.repository.BookNaturalKeyRepository;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;

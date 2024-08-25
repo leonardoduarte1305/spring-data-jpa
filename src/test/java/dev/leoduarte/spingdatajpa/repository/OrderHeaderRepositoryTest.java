@@ -2,6 +2,8 @@ package dev.leoduarte.spingdatajpa.repository;
 
 import dev.leoduarte.spingdatajpa.domain.mappedsuperclass.OrderHeader;
 import dev.leoduarte.spingdatajpa.domain.mappedsuperclass.OrderLine;
+import dev.leoduarte.spingdatajpa.domain.mappedsuperclass.repository.OrderHeaderRepository;
+import dev.leoduarte.spingdatajpa.domain.mappedsuperclass.repository.OrderLineRepository;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

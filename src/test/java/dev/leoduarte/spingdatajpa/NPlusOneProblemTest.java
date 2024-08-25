@@ -1,7 +1,7 @@
 package dev.leoduarte.spingdatajpa;
 
 import dev.leoduarte.spingdatajpa.domain.problementities.AuthorNPlusOne;
-import dev.leoduarte.spingdatajpa.domain.problementities.AuthorNPlusOneRepository;
+import dev.leoduarte.spingdatajpa.domain.problementities.repository.AuthorNPlusOneRepository;
 import dev.leoduarte.spingdatajpa.domain.problementities.BookNPlusOne;
 import jakarta.persistence.EntityManager;
 import org.hibernate.loader.MultipleBagFetchException;

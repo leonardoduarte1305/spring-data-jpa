@@ -2,7 +2,7 @@ package dev.leoduarte.spingdatajpa;
 
 import dev.leoduarte.spingdatajpa.domain.compositekey.BookCompositeKey;
 import dev.leoduarte.spingdatajpa.domain.compositekey.CompositeKey;
-import dev.leoduarte.spingdatajpa.repository.BookCompositeKeyRepository;
+import dev.leoduarte.spingdatajpa.domain.compositekey.repository.BookCompositeKeyRepository;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;

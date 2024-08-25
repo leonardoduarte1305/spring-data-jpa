@@ -2,7 +2,7 @@ package dev.leoduarte.spingdatajpa.dao.springdatajpa;
 
 import dev.leoduarte.spingdatajpa.dao.BookDao;
 import dev.leoduarte.spingdatajpa.domain.springdatajpa.BookSpringJPA;
-import dev.leoduarte.spingdatajpa.repository.BookSpringJPARepository;
+import dev.leoduarte.spingdatajpa.domain.springdatajpa.repository.BookSpringJPARepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

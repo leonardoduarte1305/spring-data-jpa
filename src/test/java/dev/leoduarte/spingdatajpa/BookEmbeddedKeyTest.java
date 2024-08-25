@@ -2,7 +2,7 @@ package dev.leoduarte.spingdatajpa;
 
 import dev.leoduarte.spingdatajpa.domain.embeddedkey.BookEmbeddedKey;
 import dev.leoduarte.spingdatajpa.domain.embeddedkey.CompositeEmbeddedKey;
-import dev.leoduarte.spingdatajpa.repository.BookEmbeddedKeyRepository;
+import dev.leoduarte.spingdatajpa.domain.embeddedkey.repository.BookEmbeddedKeyRepository;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;

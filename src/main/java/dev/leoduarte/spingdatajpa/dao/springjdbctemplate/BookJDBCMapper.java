@@ -1,8 +1,8 @@
 package dev.leoduarte.spingdatajpa.dao.springjdbctemplate;
 
 import dev.leoduarte.spingdatajpa.dao.AuthorDao;
-import dev.leoduarte.spingdatajpa.domain.Author;
-import dev.leoduarte.spingdatajpa.domain.Book;
+import dev.leoduarte.spingdatajpa.domain.original.Author;
+import dev.leoduarte.spingdatajpa.domain.original.Book;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.RowMapper;

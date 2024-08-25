@@ -2,8 +2,8 @@ package dev.leoduarte.spingdatajpa.dao.oldjdbc;
 
 import dev.leoduarte.spingdatajpa.dao.AuthorDao;
 import dev.leoduarte.spingdatajpa.dao.BookDao;
-import dev.leoduarte.spingdatajpa.domain.Author;
-import dev.leoduarte.spingdatajpa.domain.Book;
+import dev.leoduarte.spingdatajpa.domain.original.Author;
+import dev.leoduarte.spingdatajpa.domain.original.Book;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;

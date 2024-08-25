@@ -1,7 +1,5 @@
 package dev.leoduarte.spingdatajpa.dao;
 
-import dev.leoduarte.spingdatajpa.domain.Author;
-
 public interface AuthorDao<T> {
 
     T getById(long id);

@@ -1,7 +1,7 @@
 package dev.leoduarte.spingdatajpa.bootstrap;
 
 import dev.leoduarte.spingdatajpa.domain.version.VersionedEntityOptimisticLock;
-import dev.leoduarte.spingdatajpa.repository.VersionedEntityOptimisticLockRepository;
+import dev.leoduarte.spingdatajpa.domain.version.repository.VersionedEntityOptimisticLockRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.StaleObjectStateException;
 import org.springframework.beans.factory.annotation.Autowired;

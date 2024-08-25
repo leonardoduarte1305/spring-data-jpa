@@ -1,6 +1,6 @@
 package dev.leoduarte.spingdatajpa;
 
-import dev.leoduarte.spingdatajpa.repository.BookRepository;
+import dev.leoduarte.spingdatajpa.domain.original.repository.BookRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;

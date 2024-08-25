@@ -1,7 +1,7 @@
 package dev.leoduarte.spingdatajpa;
 
-import dev.leoduarte.spingdatajpa.domain.BookUUIDRFC4122;
-import dev.leoduarte.spingdatajpa.repository.BookUuidRFC4122Repository;
+import dev.leoduarte.spingdatajpa.domain.original.BookUUIDRFC4122;
+import dev.leoduarte.spingdatajpa.domain.original.repository.BookUuidRFC4122Repository;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
