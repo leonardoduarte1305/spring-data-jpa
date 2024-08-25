@@ -18,6 +18,11 @@ spring:
       username: mysql1-user
       password: password
       url: jdbc:mysql://localhost:3306/datasourcemysql1?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
+    hikari:
+      idle-timeout: 60000
+      maximum-pool-size: 20
+      connection-timeout: 30000
+      schema: public
   datasourcemysql2:
     enabled: true
     datasource:
@@ -25,6 +30,11 @@ spring:
       username: mysql2-user
       password: password
       url: jdbc:mysql://localhost:3306/datasourcemysql2?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
+    hikari:
+      idle-timeout: 60000
+      maximum-pool-size: 20
+      connection-timeout: 30000
+      schema: public
   datasourcemysql3:
     enabled: true
     datasource:
@@ -32,6 +42,11 @@ spring:
       username: mysql1-user
       password: password
       url: jdbc:mysql://localhost:3306/datasourcemysql3?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
+    hikari:
+      idle-timeout: 60000
+      maximum-pool-size: 20
+      connection-timeout: 30000
+      schema: public
   h2:
     console:
       path: /h2-console

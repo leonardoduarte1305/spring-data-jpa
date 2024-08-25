@@ -45,7 +45,7 @@ public class DatasourceMysql2 {
             EntityManagerFactoryBuilder builder) {
         return builder
                 .dataSource(mysql2DataSource)
-                .packages("dev/leoduarte/spingdatajpa")
+                .packages("dev.leoduarte.spingdatajpa.lazyoperations")
                 .persistenceUnit(MYSQL2_PERSISTENCE_UNIT)
                 .build();
     }

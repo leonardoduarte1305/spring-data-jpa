@@ -15,6 +15,7 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.transaction.PlatformTransactionManager;
 
 import javax.sql.DataSource;
+import java.util.Objects;
 
 @ConditionalOnProperty(prefix = "spring.datasourcemysql1.enabled", value = "true")
 @EnableJpaRepositories(
@@ -49,7 +50,7 @@ public class DatasourceMysql1 {
             EntityManagerFactoryBuilder builder) {
         return builder
                 .dataSource(mysql1DataSource)
-                .packages("dev/leoduarte/spingdatajpa")
+                .packages("dev.leoduarte.spingdatajpa")
                 .persistenceUnit(MYSQL1_PERSISTENCE_UNIT)
                 .build();
     }
@@ -59,6 +60,6 @@ public class DatasourceMysql1 {
     public PlatformTransactionManager mysql1TransactionManager(
             @Qualifier("mysql1EntityManagerFactory")
             LocalContainerEntityManagerFactoryBean mysql1EntityManagerFactory) {
-        return new JpaTransactionManager(mysql1EntityManagerFactory.getObject());
+        return new JpaTransactionManager(Objects.requireNonNull(mysql1EntityManagerFactory.getObject()));
     }
 }

@@ -45,7 +45,7 @@ public class DatasourceMysql3 {
             EntityManagerFactoryBuilder builder) {
         return builder
                 .dataSource(mysql3DataSource)
-                .packages("dev/leoduarte/spingdatajpa")
+                .packages("dev.leoduarte.spingdatajpa.dao")
                 .persistenceUnit(MYSQL3_PERSISTENCE_UNIT)
                 .build();
     }
